@@ -1,5 +1,5 @@
 
-package com.adrien_cuisse.chess_repertoire.application.commands.account;
+package com.adrien_cuisse.chess_repertoire.application.dto.account;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.IIdentity;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.mail_address.MailAddress;

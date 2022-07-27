@@ -1,7 +1,7 @@
 
 package com.adrien_cuisse.chess_repertoire.application.use_cases.user.registration;
 
-import com.adrien_cuisse.chess_repertoire.application.commands.account.RegisterAccountCommand;
+import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByMailAddressQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
