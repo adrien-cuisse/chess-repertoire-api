@@ -166,7 +166,7 @@ public final class PlainPasswordTest
 	@ParameterizedTest
 	@MethodSource("comparison")
 	public void matchesSameMailAddress(
-		final PlainPassword mailAddress,
+		final PlainPassword password,
 		final IValueObject other,
 		final boolean expectedEquality,
 		final String errorMessage
@@ -174,7 +174,7 @@ public final class PlainPasswordTest
 		// given a password, and another value object to compare with
 
 		// when comparing them
-		final boolean areTheSame = mailAddress.equals(other);
+		final boolean areTheSame = password.equals(other);
 
 		// then it should be the expected equality
 		assertEquals(expectedEquality, areTheSame, errorMessage);
