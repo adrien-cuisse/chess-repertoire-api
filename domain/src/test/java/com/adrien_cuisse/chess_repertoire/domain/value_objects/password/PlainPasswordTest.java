@@ -165,7 +165,7 @@ public final class PlainPasswordTest
 
 	@ParameterizedTest
 	@MethodSource("comparison")
-	public void matchesSameMailAddress(
+	public void matchesSamePassword(
 		final PlainPassword password,
 		final IValueObject other,
 		final boolean expectedEquality,
