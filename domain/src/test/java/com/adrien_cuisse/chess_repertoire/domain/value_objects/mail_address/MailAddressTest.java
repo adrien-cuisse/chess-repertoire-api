@@ -58,7 +58,7 @@ public final class MailAddressTest
 			{ mailAddress, mailAddress, true, "Mail address should equal itself" },
 			{ mailAddress, new MailAddress("foo@bar.org"), true, "Mail address should equal if it represents the same value" },
 			{ mailAddress, new MailAddress("different@bar.org"), false, "Mail address shouldn't equal if the value is different" },
-			{ mailAddress, otherValueObject, false, "Mail address shouldn't equal when not given a mail a mail address" }
+			{ mailAddress, otherValueObject, false, "Mail address shouldn't equal when not given a mail address" }
 		};
 	}
 
