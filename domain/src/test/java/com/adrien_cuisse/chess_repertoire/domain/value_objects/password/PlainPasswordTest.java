@@ -7,8 +7,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public final class PlainPasswordTest
 {
@@ -26,6 +25,22 @@ public final class PlainPasswordTest
 			NullPasswordException.class,
 			instanciation,
 			"Password shouldn't be null"
+		);
+	}
+
+	@Test
+	public void isNotHashed()
+	{
+		// given a plain password
+		final PlainPassword password = new PlainPassword("qB1)dH3:dO1(aI8@mT2^rZ8#tM2.fD0}");
+
+		// when checking if it's hashed
+		final boolean isHashed = password.isHashed();
+
+		// then it shouldn't be
+		assertFalse(
+			isHashed,
+			"Plain password shouldn't tell it's hashed"
 		);
 	}
 
