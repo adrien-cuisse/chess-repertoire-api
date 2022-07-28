@@ -96,7 +96,7 @@ public final class UserRegistrationInteractor
 			|| response.mailAddressIsAlreadyTaken;
 	}
 
-	private boolean isMailAddressAlreadyTaken(UserRegistrationRequest request) {
+	private boolean isMailAddressAlreadyTaken(final UserRegistrationRequest request) {
 		final FindAccountByMailAddressQuery query = new FindAccountByMailAddressQuery(request.mailAddress());
 		return this.findUserByMailAddressHandler.execute(query).isPresent();
 	}
