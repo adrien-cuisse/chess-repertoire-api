@@ -5,6 +5,7 @@ import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccoun
 import com.adrien_cuisse.chess_repertoire.application.dto.account.Account;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByMailAddressQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByNicknameQuery;
+import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.mail_address.MailAddress;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.nickname.Nickname;

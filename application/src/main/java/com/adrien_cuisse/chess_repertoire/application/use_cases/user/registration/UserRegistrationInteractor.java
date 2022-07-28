@@ -4,6 +4,7 @@ package com.adrien_cuisse.chess_repertoire.application.use_cases.user.registrati
 import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByMailAddressQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByNicknameQuery;
+import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.mail_address.InvalidMailAddressException;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.mail_address.MailAddress;
