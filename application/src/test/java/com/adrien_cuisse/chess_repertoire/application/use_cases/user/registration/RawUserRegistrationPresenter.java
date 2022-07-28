@@ -1,7 +1,7 @@
 
 package com.adrien_cuisse.chess_repertoire.application.use_cases.user.registration;
 
-public final class RawRegistrationPresenter implements IRegistrationPresenter
+public final class RawUserRegistrationPresenter implements IUserRegistrationPresenter
 {
 	private UserRegistrationResponse response;
 

@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public final class RegistrationInteractorTest
+public final class RegisterUserInteractorTest
 {
-	private RawRegistrationPresenter presenter;
+	private RawUserRegistrationPresenter presenter;
 
 	@Mock
 	private FindAccountByNicknameQuery.IHandler findAccountByNicknameHandlerMock;
@@ -45,7 +45,7 @@ public final class RegistrationInteractorTest
 		new HashedPassword("hashed")
 	);
 
-	private UserRegistrationInteractor interactor;
+	private RegisterUserInteractor interactor;
 
 	@Mock
 	private IPasswordHasher passwordHasherMock;
@@ -58,8 +58,8 @@ public final class RegistrationInteractorTest
 		reset(this.registerAccountHandlerMock);
 		reset(this.passwordHasherMock);
 
-		this.presenter = new RawRegistrationPresenter();
-		this.interactor = new UserRegistrationInteractor(
+		this.presenter = new RawUserRegistrationPresenter();
+		this.interactor = new RegisterUserInteractor(
 			this.findAccountByNicknameHandlerMock,
 			this.findAccountByMailAddressHandlerMock,
 			this.registerAccountHandlerMock,

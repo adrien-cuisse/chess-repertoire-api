@@ -12,7 +12,7 @@ import com.adrien_cuisse.chess_repertoire.domain.value_objects.mail_address.Null
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.nickname.*;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.password.*;
 
-public final class UserRegistrationInteractor
+public final class RegisterUserInteractor
 {
 	private final FindAccountByNicknameQuery.IHandler findUserByNicknameHandler;
 
@@ -22,7 +22,7 @@ public final class UserRegistrationInteractor
 
 	private final IPasswordHasher passwordHasher;
 
-	public UserRegistrationInteractor(
+	public RegisterUserInteractor(
 		final FindAccountByNicknameQuery.IHandler findUserByNicknameHandler,
 		final FindAccountByMailAddressQuery.IHandler findUserByMailAddressHandler,
 		final RegisterAccountCommand.IHandler registerUserHandler,
@@ -34,7 +34,7 @@ public final class UserRegistrationInteractor
 		this.passwordHasher = passwordHasher;
 	}
 
-	public void execute(final UserRegistrationRequest request, final IRegistrationPresenter presenter)
+	public void execute(final UserRegistrationRequest request, final IUserRegistrationPresenter presenter)
 	{
 		final UserRegistrationResponse response = new UserRegistrationResponse();
 
