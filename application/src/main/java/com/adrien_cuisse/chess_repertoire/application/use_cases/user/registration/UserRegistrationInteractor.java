@@ -19,14 +19,18 @@ public final class UserRegistrationInteractor
 
 	private final RegisterAccountCommand.IHandler registerUserHandler;
 
+	private final IPasswordHasher passwordHasher;
+
 	public UserRegistrationInteractor(
 		final FindAccountByNicknameQuery.IHandler findUserByNicknameHandler,
 		final FindAccountByMailAddressQuery.IHandler findUserByMailAddressHandler,
-		final RegisterAccountCommand.IHandler registerUserHandler
+		final RegisterAccountCommand.IHandler registerUserHandler,
+		final IPasswordHasher passwordHasher
 	) {
 		this.findUserByNicknameHandler = findUserByNicknameHandler;
 		this.findUserByMailAddressHandler = findUserByMailAddressHandler;
 		this.registerUserHandler = registerUserHandler;
+		this.passwordHasher = passwordHasher;
 	}
 
 	public void execute(final UserRegistrationRequest request, final IRegistrationPresenter presenter)
@@ -34,7 +38,7 @@ public final class UserRegistrationInteractor
 		final UserRegistrationResponse response = new UserRegistrationResponse();
 
 		if (credentialsAreValidAndAvailable(request, response))
-			registerUser(request);
+			hashPasswordAndRegisterUser(request);
 
 		presenter.present(response);
 	}
@@ -114,13 +118,16 @@ public final class UserRegistrationInteractor
 			|| response.passwordIsTooLong;
 	}
 
-	private void registerUser(final UserRegistrationRequest request)
+	private void hashPasswordAndRegisterUser(final UserRegistrationRequest request)
 	{
+		final PlainPassword plainPassword = new PlainPassword(request.password());
+		final HashedPassword hashedPassword = this.passwordHasher.hashPassword(plainPassword);
+
 		final RegisterAccountCommand command = new RegisterAccountCommand(
 			new UuidV4(),
 			new Nickname(request.nickname()),
 			new MailAddress(request.mailAddress()),
-			new HashedPassword(request.password())
+			hashedPassword
 		);
 		this.registerUserHandler.execute(command);
 	}

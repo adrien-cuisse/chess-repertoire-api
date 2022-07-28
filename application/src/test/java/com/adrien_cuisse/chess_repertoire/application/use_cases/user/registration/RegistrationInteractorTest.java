@@ -9,6 +9,7 @@ import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.Uui
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.mail_address.MailAddress;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.nickname.Nickname;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.password.HashedPassword;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.password.PlainPassword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,18 +46,23 @@ public final class RegistrationInteractorTest
 
 	private UserRegistrationInteractor interactor;
 
+	@Mock
+	private IPasswordHasher passwordHasherMock;
+
 	@BeforeEach
 	public void setup()
 	{
-		reset(findAccountByNicknameHandlerMock);
-		reset(findAccountByMailAddressHandlerMock);
-		reset(registerAccountHandlerMock);
+		reset(this.findAccountByNicknameHandlerMock);
+		reset(this.findAccountByMailAddressHandlerMock);
+		reset(this.registerAccountHandlerMock);
+		reset(this.passwordHasherMock);
 
 		this.presenter = new RawRegistrationPresenter();
 		this.interactor = new UserRegistrationInteractor(
-			findAccountByNicknameHandlerMock,
-			findAccountByMailAddressHandlerMock,
-			registerAccountHandlerMock
+			this.findAccountByNicknameHandlerMock,
+			this.findAccountByMailAddressHandlerMock,
+			this.registerAccountHandlerMock,
+			this.passwordHasherMock
 		);
 	}
 
@@ -338,6 +344,27 @@ public final class RegistrationInteractorTest
 	}
 
 	@Test
+	public void hashesPassword()
+	{
+		// given a registration request with an available nickname, available mail address and a strong password
+		UserRegistrationRequest request = new UserRegistrationRequest(
+			"nickname",
+			"foo@bar.org",
+			"tM2?tZ4)cV7#mN2(mW9<eI7:jX1,gC7}"
+		);
+
+		// when trying to process the registration
+		this.interactor.execute(request, this.presenter);
+
+		// then the password should have been hashed
+		verify(
+			this.passwordHasherMock,
+			times(1).
+				description("Password should be hashed to be put to persistence")
+		).hashPassword(any(PlainPassword.class));
+	}
+
+	@Test
 	public void registersTheUser()
 	{
 		// given a registration request with an available nickname, available mail address and a strong password
@@ -352,7 +379,7 @@ public final class RegistrationInteractorTest
 
 		// then the account should be created
 		verify(
-			registerAccountHandlerMock,
+			this.registerAccountHandlerMock,
 			times(1)
 				.description("User should be registered if credentials are valid and available")
 		).execute(any(RegisterAccountCommand.class));
