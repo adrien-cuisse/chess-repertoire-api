@@ -48,14 +48,14 @@ public final class RegisterUserInteractor
 		final UserRegistrationRequest request,
 		final UserRegistrationResponse response
 	) {
-		boolean errorOccured = isUserNameInvalidOrTaken(request, response);
+		boolean errorOccured = isNicknameInvalidOrTaken(request, response);
 		errorOccured = isMailAddressInvalidOrTaken(request, response) || errorOccured;
 		errorOccured = isPasswordInvalid(request, response) || errorOccured;
 
 		return errorOccured == false;
 	}
 
-	private boolean isUserNameInvalidOrTaken(
+	private boolean isNicknameInvalidOrTaken(
 		final UserRegistrationRequest request,
 		final UserRegistrationResponse response
 	) {
