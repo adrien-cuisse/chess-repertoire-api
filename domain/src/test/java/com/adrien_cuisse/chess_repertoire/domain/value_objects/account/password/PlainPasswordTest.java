@@ -1,7 +1,8 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.password;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;

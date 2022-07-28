@@ -1,5 +1,5 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.mail_address;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
 

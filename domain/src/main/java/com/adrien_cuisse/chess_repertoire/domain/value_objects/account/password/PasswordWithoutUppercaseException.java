@@ -1,5 +1,5 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.password;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password;
 
 public final class PasswordWithoutUppercaseException extends RuntimeException
 {
