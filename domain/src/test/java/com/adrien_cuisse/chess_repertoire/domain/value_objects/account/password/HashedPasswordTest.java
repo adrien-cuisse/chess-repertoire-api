@@ -2,8 +2,6 @@
 package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.HashedPassword;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.NullPasswordException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,12 +18,12 @@ public final class HashedPasswordTest
 		final String invalidPassword = null;
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new HashedPassword(invalidPassword);
+		Executable instantiation = () -> new HashedPassword(invalidPassword);
 
 		// then there should be an error
 		assertThrows(
 			NullPasswordException.class,
-			instanciation,
+			instantiation,
 			"Password shouldn't be null"
 		);
 	}
