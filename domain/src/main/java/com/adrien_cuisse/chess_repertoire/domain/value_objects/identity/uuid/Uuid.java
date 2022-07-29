@@ -11,10 +11,13 @@ final class Uuid implements IUuid
     private final byte[] bytes;
 
     /**
+     * @throws NullUuidException - if bytes are null
      * @throws InvalidUuidBytesCountException - if bytes count isn't 16
      */
     Uuid(final byte[] bytes)
     {
+        if (bytes == null)
+            throw new NullUuidException();
         if (bytes.length != 16)
             throw new InvalidUuidBytesCountException(bytes);
 
@@ -22,6 +25,7 @@ final class Uuid implements IUuid
     }
 
     /**
+     * @throws NullUuidException - if bytes are null
      * @throws InvalidUuidBytesCountException - if bytes count isn't 16
      */
     Uuid(final byte[] bytes, final int version)
@@ -30,7 +34,9 @@ final class Uuid implements IUuid
     }
 
     /**
+     * @throws NullUuidException - if bytes are null
      * @throws InvalidUuidBytesCountException - if bytes count isn't 16
+     * @throws NullVariantException - if variant is null
      */
     Uuid(final byte[] bytes, final int version, final Variant variant)
     {
@@ -38,15 +44,20 @@ final class Uuid implements IUuid
     }
 
     /**
+     * @throws NullUuidException - if uuid is null
      * @throws InvalidUuidFormatException - if uuid isn't RFC compliant
      * @throws InvalidUuidVersionException - if version mismatches with string
      */
     Uuid(final String uuid, final int expectedVersion)
     {
-        if (uuid.matches("[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}") == false)
+        if (uuid == null)
+            throw new NullUuidException();
+
+        final String trimmed = uuid.replace(" ", "");
+        if (trimmed.matches("[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}") == false)
             throw new InvalidUuidFormatException(uuid);
 
-        final String digits = uuid.replace("-", "");
+        final String digits = trimmed.replace("-", "");
 
         final String versionDigit = digits.substring(12, 13);
         final int actualVersion = Integer.parseInt(versionDigit, 16);
@@ -101,8 +112,17 @@ final class Uuid implements IUuid
         return builder.toString();
     }
 
+    /**
+     * @throws NullUuidException - if bytes are null
+     * @throws InvalidUuidBytesCountException - if bytes count isn't 16
+     */
     private static byte[] interlopeVersionInTimestampHigh(final byte[] bytes, final int version)
     {
+        if (bytes == null)
+            throw new NullUuidException();
+        else if (bytes.length != 16)
+            throw new InvalidUuidBytesCountException(bytes);
+
         final int lowNibbleBitMask = 0x0f;
 
         final byte highNibble = (byte) ((version & lowNibbleBitMask) << 4);
@@ -114,8 +134,20 @@ final class Uuid implements IUuid
         return bytesWithInterlopedVersion;
     }
 
+    /**
+     * @throws NullUuidException - if bytes are null
+     * @throws InvalidUuidBytesCountException - if bytes count isn't 16
+     * @throws NullVariantException - if variant is null
+     */
     private static byte[] interlopeVariantInClockSequenceHigh(final byte[] bytes, final Variant variant)
     {
+        if (bytes == null)
+            throw new NullUuidException();
+        else if (bytes.length != 16)
+            throw new InvalidUuidBytesCountException(bytes);
+        else if (variant == null)
+            throw new NullVariantException();
+
         final byte[] bytesWithInterlopedVariant = bytes.clone();
         bytesWithInterlopedVariant[8] = (byte) (variant.bits() | (bytes[8] & variant.unusedBitsMask()));
         return bytesWithInterlopedVariant;

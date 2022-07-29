@@ -15,6 +15,74 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public final class UuidTest
 {
+    @Test
+    public void isNotNull1()
+    {
+        // given no bytes
+        final byte[] bytes = null;
+
+        // when trying to make an instance of it
+        Executable instantiation = () -> new Uuid(bytes);
+
+        // then there should be an error
+        assertThrows(
+            NullUuidException.class,
+            instantiation,
+            "Uuid shouldn't be null"
+        );
+    }
+
+    @Test
+    public void isNotNull2()
+    {
+        // given no bytes
+        final byte[] bytes = null;
+
+        // when trying to make an instance of it
+        Executable instantiation = () -> new Uuid(bytes, 1);
+
+        // then there should be an error
+        assertThrows(
+            NullUuidException.class,
+            instantiation,
+            "Uuid shouldn't be null"
+        );
+    }
+
+    @Test
+    public void isNotNull3()
+    {
+        // given no bytes
+        final byte[] bytes = null;
+
+        // when trying to make an instance of it
+        Executable instantiation = () -> new Uuid(bytes, 1, IUuid.Variant.RFC_VARIANT);
+
+        // then there should be an error
+        assertThrows(
+            NullUuidException.class,
+            instantiation,
+            "Uuid shouldn't be null"
+        );
+    }
+
+    @Test
+    public void isNotNull4()
+    {
+        // given no uuid
+        final String uuid = null;
+
+        // when trying to make an instance of it
+        Executable instantiation = () -> new Uuid(uuid, 1);
+
+        // then there should be an error
+        assertThrows(
+            NullUuidException.class,
+            instantiation,
+            "Uuid shouldn't be null"
+        );
+    }
+
     public static byte[] nullBytes()
     {
         final byte[] bytes = new byte[16];
@@ -30,7 +98,7 @@ public final class UuidTest
     }
 
     @Test
-    public void expects16Bytes()
+    public void requires16Bytes1()
     {
         // given an invalid bytes count
         final byte[] bytes = new byte[] { 0x42 };
@@ -47,7 +115,41 @@ public final class UuidTest
     }
 
     @Test
-    public void expects32HexDigits()
+    public void requires16Bytes2()
+    {
+        // given an invalid bytes count
+        final byte[] bytes = new byte[] { 0x42 };
+
+        // when trying to create a UUID from it
+        Executable instantiation = () -> new Uuid(bytes, 1);
+
+        // then an exception should be thrown
+        assertThrows(
+            InvalidUuidBytesCountException.class,
+            instantiation,
+            "Uuid shouldn't be created when its not 16 bytes long"
+        );
+    }
+
+    @Test
+    public void requires16Bytes3()
+    {
+        // given an invalid bytes count
+        final byte[] bytes = new byte[] { 0x42 };
+
+        // when trying to create a UUID from it
+        Executable instantiation = () -> new Uuid(bytes, 1, IUuid.Variant.RFC_VARIANT);
+
+        // then an exception should be thrown
+        assertThrows(
+            InvalidUuidBytesCountException.class,
+            instantiation,
+            "Uuid shouldn't be created when its not 16 bytes long"
+        );
+    }
+
+    @Test
+    public void requires32HexDigits()
     {
         // given an invalid string representation
         final String format = "42";
@@ -63,8 +165,26 @@ public final class UuidTest
         );
     }
 
+
     @Test
-    public void expectsStringMatchingVersion()
+    public void isTrimmed()
+    {
+        // given a UUID made from a string representation with spaces
+        final Uuid uuid = new Uuid("   00 000000-000 0-00 00-00 00-000 000 00000 0   ", 0);
+
+        // when checking its format
+        final String format = uuid.toString();
+
+        // then it shouldn't contain whitespaces
+        assertEquals(
+            format,
+            "00000000-0000-0000-0000-000000000000",
+            "String representation shouldn't contain spaces"
+        );
+    }
+
+    @Test
+    public void requiresStringMatchingVersion()
     {
         // given a string representation that mismatches the expected version
         final String format = "00000000-0000-f000-0000-000000000000";
@@ -139,6 +259,23 @@ public final class UuidTest
             Character.forDigit(expectedVersion, 16),
             format.charAt(14),
             "Version should be set as the 13th digit"
+        );
+    }
+
+    @Test
+    public void requiresVariant()
+    {
+        // given no variant
+        IUuid.Variant variant = null;
+
+        // when trying to make an instance of it
+        Executable instantiation = () -> new Uuid(nullBytes(), 1, variant);
+
+        // then an exception should be thrown
+        assertThrows(
+            NullVariantException.class,
+            instantiation,
+            "Variant shouldn't be null"
         );
     }
 
@@ -252,7 +389,7 @@ public final class UuidTest
     }
 
     @Test
-    public void expectsHexDigits()
+    public void requiresHexDigits()
     {
         // given an invalid format
         final String invalidFormat = "00000000-0z00-0000-0000-000000000000";
