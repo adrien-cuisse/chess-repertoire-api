@@ -19,12 +19,12 @@ public final class MailAddressTest
 		final String invalidMailAddress = null;
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new MailAddress(invalidMailAddress);
+		Executable instantiation = () -> new MailAddress(invalidMailAddress);
 
 		// then there should be an error
 		assertThrows(
 			NullMailAddressException.class,
-			instanciation,
+			instantiation,
 			"Mail address shouldn't be null"
 		);
 	}
@@ -36,12 +36,12 @@ public final class MailAddressTest
 		final String invalidMailAddress = "invalid mail address";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new MailAddress(invalidMailAddress);
+		Executable instantiation = () -> new MailAddress(invalidMailAddress);
 
 		// then there should be an error
 		assertThrows(
 			InvalidMailAddressException.class,
-			instanciation,
+			instantiation,
 			"Mail address should comply with format"
 		);
 	}
