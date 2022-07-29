@@ -2,7 +2,6 @@
 package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,12 +18,12 @@ public final class PlainPasswordTest
 		final String invalidPassword = null;
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(invalidPassword);
+		Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be an error
 		assertThrows(
 			NullPasswordException.class,
-			instanciation,
+			instantiation,
 			"Password shouldn't be null"
 		);
 	}
@@ -52,12 +51,12 @@ public final class PlainPasswordTest
 		final String invalidPassword = "ABCDEF123456#@$~{<";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(invalidPassword);
+		Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be a "password too weak" error
 		assertThrows(
 			PasswordWithoutLowercaseException.class,
-			instanciation,
+			instantiation,
 			"Password should contain lowercase"
 		);
 	}
@@ -69,12 +68,12 @@ public final class PlainPasswordTest
 		final String invalidPassword = "abcdef123456#@$~{<";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(invalidPassword);
+		Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be a "password too weak" error
 		assertThrows(
 			PasswordWithoutUppercaseException.class,
-			instanciation,
+			instantiation,
 			"Password should contain uppercase"
 		);
 	}
@@ -87,12 +86,12 @@ public final class PlainPasswordTest
 		final String invalidPassword = "abcdefABCDEF#@$~{<";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(invalidPassword);
+		Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be a "password too weak" error
 		assertThrows(
 			PasswordWithoutDigitsException.class,
-			instanciation,
+			instantiation,
 			"Password should contain digits"
 		);
 	}
@@ -104,12 +103,12 @@ public final class PlainPasswordTest
 		final String invalidPassword = "abcdefABCDEF123456";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(invalidPassword);
+		Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be a "password too weak" error
 		assertThrows(
 			PasswordWithoutSymbolsException.class,
-			instanciation,
+			instantiation,
 			"Password should contain symbols"
 		);
 	}
@@ -121,12 +120,12 @@ public final class PlainPasswordTest
 		final String invalidPassword = "aB#3";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(invalidPassword);
+		Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be a "password too short" error
 		assertThrows(
 			PasswordTooShortException.class,
-			instanciation,
+			instantiation,
 			"Password should be long enough"
 		);
 	}
@@ -138,12 +137,12 @@ public final class PlainPasswordTest
 		final String invalidPassword = "aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3 67";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(invalidPassword);
+		Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be a "password too long" error
 		assertThrows(
 			PasswordTooLongException.class,
-			instanciation,
+			instantiation,
 			"Password should be short enough"
 		);
 	}
