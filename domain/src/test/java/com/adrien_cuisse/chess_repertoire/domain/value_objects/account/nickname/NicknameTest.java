@@ -44,10 +44,10 @@ public final class NicknameTest
     public void hasNoWhitespaces(final String pollutedNickname, final String trimmedNickname)
     {
         // given a nickname
-        final Nickname instance = new Nickname(pollutedNickname);
+        final Nickname nickname = new Nickname(pollutedNickname);
 
         // when checking its actual format
-        final String actualNickname = instance.toString();
+        final String actualNickname = nickname.toString();
 
         // then it should be the expected trimmed one
         assertEquals(
