@@ -2,7 +2,6 @@
 package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.nickname;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.nickname.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,12 +29,12 @@ public final class NicknameTest
         final String invalidNickname = null;
 
         // when trying to make an instance of it
-        Executable instanciation = () -> new Nickname(invalidNickname);
+        Executable instantiation = () -> new Nickname(invalidNickname);
 
         // then there should be an error
         assertThrows(
             NullNicknameException.class,
-            instanciation,
+            instantiation,
             "Nickname shouldn't be null"
         );
     }
