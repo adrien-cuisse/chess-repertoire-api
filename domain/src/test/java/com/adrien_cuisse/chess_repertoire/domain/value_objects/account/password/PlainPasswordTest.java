@@ -179,4 +179,21 @@ public final class PlainPasswordTest
 		// then it should be the expected equality
 		assertEquals(expectedEquality, areTheSame, errorMessage);
 	}
+
+	@Test
+	public void printsAsString()
+	{
+		// given a plain password
+		final PlainPassword password = new PlainPassword("mR8.aZ1{zI1*pP5,lN7*eB9#eM7*zY4:");
+
+		// when checking its string representation
+		final String format = password.toString();
+
+		// then it should be the one used for instantiation
+		assertEquals(
+			format,
+			"mR8.aZ1{zI1*pP5,lN7*eB9#eM7*zY4:",
+			"Password should be unchanged"
+		);
+	}
 }
