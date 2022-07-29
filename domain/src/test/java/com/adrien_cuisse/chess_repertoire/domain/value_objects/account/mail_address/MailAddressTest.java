@@ -78,4 +78,20 @@ public final class MailAddressTest
 		// then it should be the expected equality
 		assertEquals(expectedEquality, areTheSame, errorMessage);
 	}
+
+	@Test
+	public void hasNoWhitespaces()
+	{
+		// given a mail address with useless spaces
+		final MailAddress mail = new MailAddress(" f o o @  ba r .  org ");
+
+		// when checking its actual format
+		final String format = mail.toString();
+
+		assertEquals(
+			"foo@bar.org",
+			format,
+			"Mail address shouldn't contain spaces"
+		);
+	}
 }

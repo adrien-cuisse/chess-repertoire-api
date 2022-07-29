@@ -20,7 +20,7 @@ public final class MailAddress implements IValueObject
         if (mailAddress == null)
             throw new NullMailAddressException();
 
-        this.mailAddress = mailAddress.trim();
+        this.mailAddress = mailAddress.replace(" ", "");
 
         if (VALIDATION_PATTERN.matcher(this.mailAddress).find() == false)
             throw new InvalidMailAddressException(this.mailAddress);
