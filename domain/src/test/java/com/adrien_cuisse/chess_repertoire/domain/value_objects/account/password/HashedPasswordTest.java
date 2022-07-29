@@ -76,4 +76,21 @@ public final class HashedPasswordTest
 		// then it should be the expected equality
 		assertEquals(expectedEquality, areTheSame, errorMessage);
 	}
+
+	@Test
+	public void printsAsString()
+	{
+		// given a hashed password
+		final HashedPassword hash = new HashedPassword("hash");
+
+		// when checking its string representation
+		final String format = hash.toString();
+
+		// then it should be the one used for instantiation
+		assertEquals(
+			format,
+			"hash",
+			"Password should be unchanged"
+		);
+	}
 }
