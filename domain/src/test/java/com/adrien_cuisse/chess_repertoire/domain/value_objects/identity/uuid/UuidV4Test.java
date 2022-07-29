@@ -4,13 +4,13 @@ package com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.IIdentity;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public final class UuidV4Test
 {
@@ -129,6 +129,40 @@ public final class UuidV4Test
         assertFalse(
             instancesAreTheSame,
             "Each instance should not equal any other"
+        );
+    }
+
+    @Test
+    public void isNotNull()
+    {
+        // given a null UUID
+        final String uuid = null;
+
+        // when trying to create an instance from it
+        final Executable instantiation = () -> new UuidV4(uuid);
+
+        // then it should throw an exception
+        assertThrows(
+            NullUuidException.class,
+            instantiation,
+            "Uuid shouldn't be null"
+        );
+    }
+
+    @Test
+    public void isTrimmed()
+    {
+        // given a uuid with useless spaces
+        final UuidV4 uuid = new UuidV4("   00 000000-000 0-40 00-00 00-000 000 00000 0   ");
+
+        // when checking its format
+        final String format = uuid.toString();
+
+        // then it shouldn't contain spaces
+        assertEquals(
+            "00000000-0000-4000-0000-000000000000",
+            format,
+            "String representation shouldn't contain spaces"
         );
     }
 }

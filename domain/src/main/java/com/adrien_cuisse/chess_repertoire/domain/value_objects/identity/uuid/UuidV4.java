@@ -17,6 +17,7 @@ public final class UuidV4 implements IUuid
     }
 
     /**
+     * @throws NullUuidException - if uuid is null
      * @throws InvalidUuidFormatException - if uuid isn't RFC compliant
      * @throws InvalidUuidVersionException - if uuid is not version 4
      */
