@@ -1,7 +1,7 @@
 
 package com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid;
 
-public class InvalidUuidFormatException extends RuntimeException
+public class InvalidUuidFormatException extends IllegalArgumentException
 {
     InvalidUuidFormatException(final String uuid)
     {

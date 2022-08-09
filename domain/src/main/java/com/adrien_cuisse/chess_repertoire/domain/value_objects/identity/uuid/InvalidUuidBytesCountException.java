@@ -1,6 +1,6 @@
 package com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid;
 
-public final class InvalidUuidBytesCountException extends RuntimeException
+public final class InvalidUuidBytesCountException extends IllegalArgumentException
 {
     public InvalidUuidBytesCountException(final byte[] bytes)
     {
