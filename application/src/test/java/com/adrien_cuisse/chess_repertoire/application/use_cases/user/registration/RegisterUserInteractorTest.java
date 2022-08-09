@@ -230,6 +230,26 @@ public final class RegisterUserInteractorTest
 	}
 
 	@Test
+	public void requiresNonBlankMailAddress()
+	{
+		// given a registration request with a blank mail address
+		UserRegistrationRequest request = new UserRegistrationRequest(
+			"nickname",
+			"",
+			"mI2%yU9(jV8:iR8.xR8>kW2{tQ3\"pQ6;"
+		);
+
+		// when trying to process the registration
+		this.interactor.execute(request, this.presenter);
+
+		// then there should be a "missing mail address" error
+		assertTrue(
+			this.presenter.response().mailAddressIsMissing,
+			"Registration shouldn't be possible without mail address"
+		);
+	}
+
+	@Test
 	public void requiresValidMailAddress()
 	{
 		// given a registration request without mail address

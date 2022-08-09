@@ -30,7 +30,24 @@ public final class MailAddressTest
 	}
 
 	@Test
-	public void mustComplyWithFormat()
+	public void isNotEmpty()
+	{
+		// given an empty mail address
+		final String emptyMailAddress = "";
+
+		// when trying to make an instance of it
+		Executable instantiation = () -> new MailAddress(emptyMailAddress);
+
+		// then there should be an error
+		assertThrows(
+			EmptyMailAddressException.class,
+			instantiation,
+			"Mail address shouldn't be empty"
+		);
+	}
+
+	@Test
+	public void compliesWithFormat()
 	{
 		// given an invalid mail address
 		final String invalidMailAddress = "invalid mail address";
@@ -91,7 +108,7 @@ public final class MailAddressTest
 		assertEquals(
 			"foo@bar.org",
 			format,
-			"Mail address shouldn't contain spaces"
+			"Mail address shouldn't contain whitespaces"
 		);
 	}
 }

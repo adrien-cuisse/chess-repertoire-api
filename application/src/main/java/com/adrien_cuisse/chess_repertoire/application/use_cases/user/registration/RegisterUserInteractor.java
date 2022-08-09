@@ -5,10 +5,8 @@ import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredential
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.InvalidMailAddressException;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.MailAddress;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.NullMailAddressException;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.*;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.Nickname;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.HashedPassword;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.PlainPassword;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
@@ -29,6 +27,8 @@ public final class RegisterUserInteractor
 	private static final Pattern ALPHANUM_START_PATTERN = Pattern.compile("^[a-zA-Z0-9]");
 
 	private static final Pattern VALID_NICKNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9\\-_]+$");
+
+	private final static Pattern MAIL_ADDRESS_PATTERN = Pattern.compile("^(.+)@(\\S+)$");
 
 	private final FindCredentialsByNicknameQuery.IHandler findUserByNicknameHandler;
 
@@ -64,14 +64,14 @@ public final class RegisterUserInteractor
 		final UserRegistrationRequest request,
 		final UserRegistrationResponse response
 	) {
-		boolean errorOccured = isNicknameInvalidOrTaken(request, response);
-		errorOccured = isMailAddressInvalidOrTaken(request, response) || errorOccured;
-		errorOccured = isPasswordInvalid(request, response) || errorOccured;
+		boolean errorOccured = nicknameIsInvalidOrTaken(request, response);
+		errorOccured = mailAddressIsInvalidOrTaken(request, response) || errorOccured;
+		errorOccured = passwordIsInvalid(request, response) || errorOccured;
 
 		return errorOccured == false;
 	}
 
-	private boolean isNicknameInvalidOrTaken(
+	private boolean nicknameIsInvalidOrTaken(
 		final UserRegistrationRequest request,
 		final UserRegistrationResponse response
 	) {
@@ -90,7 +90,7 @@ public final class RegisterUserInteractor
 			response.nicknameIsInvalid = true;
 		else if (startsWithAlphanum(nickname) == false)
 			response.nicknameIsInvalid = true;
-		else if (isNicknameAlreadyTaken(request))
+		else if (nicknameIsAlreadyTaken(request))
 			response.nicknameIsAlreadyTaken = true;
 
 		return response.nicknameIsMissing
@@ -100,34 +100,39 @@ public final class RegisterUserInteractor
 			|| response.nicknameIsAlreadyTaken;
 	}
 
-	private boolean isNicknameAlreadyTaken(final UserRegistrationRequest request)
+	private boolean nicknameIsAlreadyTaken(final UserRegistrationRequest request)
 	{
 		final FindCredentialsByNicknameQuery query = new FindCredentialsByNicknameQuery(request.nickname());
 		return this.findUserByNicknameHandler.execute(query).isPresent();
 	}
 
-	private boolean isMailAddressInvalidOrTaken(
+	private boolean mailAddressIsInvalidOrTaken(
 		final UserRegistrationRequest request,
 		final UserRegistrationResponse response
 	) {
-		try {
-			new MailAddress(request.mailAddress());
-			response.mailAddressIsAlreadyTaken = isMailAddressAlreadyTaken(request);
-		}
-		catch (NullMailAddressException exception) { response.mailAddressIsMissing = true; }
-		catch (InvalidMailAddressException exception) { response.mailAddressIsInvalid = true; }
+		if (request.mailAddress() == null)
+			return response.mailAddressIsMissing = true;
+
+		final String mailAddress = request.mailAddress().replace(" ", "");
+
+		if (mailAddress.equals(""))
+			response.mailAddressIsMissing = true;
+		else if (mailAddressHasInvalidFormat(mailAddress))
+			response.mailAddressIsInvalid = true;
+		else if (mailAddressIsAlreadyTaken(request))
+			response.mailAddressIsAlreadyTaken = true;
 
 		return response.mailAddressIsMissing
 			|| response.mailAddressIsInvalid
 			|| response.mailAddressIsAlreadyTaken;
 	}
 
-	private boolean isMailAddressAlreadyTaken(final UserRegistrationRequest request) {
+	private boolean mailAddressIsAlreadyTaken(final UserRegistrationRequest request) {
 		final FindCredentialsByMailAddressQuery query = new FindCredentialsByMailAddressQuery(request.mailAddress());
 		return this.findUserByMailAddressHandler.execute(query).isPresent();
 	}
 
-	private boolean isPasswordInvalid(final UserRegistrationRequest request, final UserRegistrationResponse response)
+	private boolean passwordIsInvalid(final UserRegistrationRequest request, final UserRegistrationResponse response)
 	{
 		final String password = request.password();
 
@@ -182,6 +187,11 @@ public final class RegisterUserInteractor
 	private boolean startsWithAlphanum(final String text)
 	{
 		return regexMatches(text, ALPHANUM_START_PATTERN);
+	}
+
+	private boolean mailAddressHasInvalidFormat(final String mailAddress)
+	{
+		return regexMatches(mailAddress, MAIL_ADDRESS_PATTERN) == false;
 	}
 
 	private boolean regexMatches(final String text, final Pattern regex)

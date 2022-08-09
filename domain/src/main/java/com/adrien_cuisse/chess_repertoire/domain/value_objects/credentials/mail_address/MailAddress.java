@@ -13,6 +13,7 @@ public final class MailAddress implements IValueObject
 
     /**
      * @throws NullMailAddressException - if mailAddress is null
+     * @throws EmptyMailAddressException - if mailAddress is empty
      * @throws InvalidMailAddressException - if mailAddress is invalid
      */
     public MailAddress(final String mailAddress)
@@ -21,6 +22,9 @@ public final class MailAddress implements IValueObject
             throw new NullMailAddressException();
 
         this.mailAddress = mailAddress.replace(" ", "");
+
+        if (this.mailAddress.equals(""))
+            throw new EmptyMailAddressException();
 
         if (VALIDATION_PATTERN.matcher(this.mailAddress).find() == false)
             throw new InvalidMailAddressException(this.mailAddress);
