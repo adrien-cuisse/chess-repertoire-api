@@ -6,11 +6,6 @@ import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredential
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.MailAddress;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.Nickname;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.HashedPassword;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.PlainPassword;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,10 +36,10 @@ public final class RegisterUserInteractorTest
 	private RegisterAccountCommand.IHandler registerAccountHandlerMock;
 
 	private final CredentialsDTO existingAccount = new CredentialsDTO(
-		new UuidV4("00000000-0000-4000-0000-000000000000"),
-		new Nickname("nickname"),
-		new MailAddress("foo@bar.org"),
-		new HashedPassword("hashed")
+		"00000000-0000-4000-0000-000000000000",
+		"nickname",
+		"foo@bar.org",
+		"hashed"
 	);
 
 	private RegisterUserInteractor interactor;
@@ -445,7 +441,7 @@ public final class RegisterUserInteractorTest
 			this.passwordHasherMock,
 			times(1).
 				description("Password should be hashed to be put to persistence")
-		).hashPassword(any(PlainPassword.class));
+		).hashPassword("tM2?tZ4)cV7#mN2(mW9<eI7:jX1,gC7}");
 	}
 
 	@Test
@@ -457,6 +453,7 @@ public final class RegisterUserInteractorTest
 			"foo@bar.org",
 			"xO9$iS6&kZ4!wD9_jM4>qS2{fX5@iP4("
 		);
+		when(this.passwordHasherMock.hashPassword(any())).thenReturn("hash");
 
 		// when processing the registration
 		this.interactor.execute(request, this.presenter);
@@ -487,8 +484,8 @@ public final class RegisterUserInteractorTest
 		verify(this.registerAccountHandlerMock).execute(command.capture());
 		org.junit.jupiter.api.Assertions.assertAll(
 			"Formatting credentials",
-			() -> assertEquals("nick name", command.getValue().nickname().toString()),
-			() -> assertEquals("foo@bar.org", command.getValue().mailAddress().toString())
+			() -> assertEquals("nick name", command.getValue().nickname()),
+			() -> assertEquals("foo@bar.org", command.getValue().mailAddress())
 		);
 	}
 
@@ -501,7 +498,7 @@ public final class RegisterUserInteractorTest
 			" f o o    @ b a r . o r g ",
 			"oK2;mS8+cV9{xN9&yU3\"jJ8<eH9}gU9:"
 		);
-		when(this.passwordHasherMock.hashPassword(any())).thenReturn(new HashedPassword("hash"));
+		when(this.passwordHasherMock.hashPassword(any())).thenReturn("hash");
 
 		// when processing the registration
 		this.interactor.execute(request, this.presenter);
@@ -511,7 +508,7 @@ public final class RegisterUserInteractorTest
 		verify(this.registerAccountHandlerMock).execute(command.capture());
 		assertEquals(
 			"hash",
-			command.getValue().hashedPassword().toString(),
+			command.getValue().hashedPassword(),
 			"User should be registered with its password hash"
 		);
 	}

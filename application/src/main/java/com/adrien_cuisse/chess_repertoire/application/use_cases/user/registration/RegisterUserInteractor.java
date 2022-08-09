@@ -5,10 +5,6 @@ import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredential
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.MailAddress;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.Nickname;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.HashedPassword;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.PlainPassword;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 
 import java.util.regex.Pattern;
@@ -201,13 +197,12 @@ public final class RegisterUserInteractor
 
 	private void hashPasswordAndRegisterUser(final UserRegistrationRequest request)
 	{
-		final PlainPassword plainPassword = new PlainPassword(request.password());
-		final HashedPassword hashedPassword = this.passwordHasher.hashPassword(plainPassword);
+		final String hashedPassword = this.passwordHasher.hashPassword(request.password());
 
 		final RegisterAccountCommand command = new RegisterAccountCommand(
-			new UuidV4(),
-			new Nickname(request.nickname()),
-			new MailAddress(request.mailAddress()),
+			new UuidV4().toString(),
+			request.nickname().replaceAll("\\s+", " ").trim(),
+			request.mailAddress().replaceAll("\\s", "").trim(),
 			hashedPassword
 		);
 		this.registerUserHandler.execute(command);
