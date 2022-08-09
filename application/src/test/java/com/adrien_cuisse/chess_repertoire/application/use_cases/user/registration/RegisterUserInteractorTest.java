@@ -100,7 +100,7 @@ public final class RegisterUserInteractorTest
 		// when trying to process the registration
 		this.interactor.execute(request, this.presenter);
 
-		// then there should be a "nickname too short" error
+		// then there should be a "missing nickname" error
 		assertTrue(
 			this.presenter.response().nicknameIsMissing,
 			"Registration shouldn't be possible without nickname"
@@ -257,6 +257,26 @@ public final class RegisterUserInteractorTest
 			"nickname",
 			"foo@bar.org",
 			null
+		);
+
+		// when trying to process the registration
+		this.interactor.execute(request, this.presenter);
+
+		// then there should be a "missing password" error
+		assertTrue(
+			this.presenter.response().passwordIsMissing,
+			"Registration shouldn't be possible without password"
+		);
+	}
+
+	@Test
+	public void requiresNonBlankPassword()
+	{
+		// given a registration request with a blank password
+		UserRegistrationRequest request = new UserRegistrationRequest(
+			"nickname",
+			"foo@bar.org",
+			""
 		);
 
 		// when trying to process the registration

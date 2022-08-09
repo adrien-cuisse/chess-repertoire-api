@@ -133,6 +133,8 @@ public final class RegisterUserInteractor
 
 		if (password == null)
 			response.passwordIsMissing = true;
+		else if (password.equals(""))
+			response.passwordIsMissing = true;
 		else if (password.length() < 6)
 			response.passwordIsTooShort = true;
 		else if (password.length() > 64)

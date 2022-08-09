@@ -16,6 +16,8 @@ public final class PlainPassword implements IPassword
             throw new NullPasswordException();
 
         this.password = password;
+        if (this.password.equals(""))
+            throw new EmptyPasswordException();
     }
 
     public boolean isHashed()

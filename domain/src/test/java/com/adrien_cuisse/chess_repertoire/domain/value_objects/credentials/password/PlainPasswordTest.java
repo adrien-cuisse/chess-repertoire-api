@@ -29,6 +29,23 @@ public final class PlainPasswordTest
 	}
 
 	@Test
+	public void isNotEmpty()
+	{
+		// given an empty password
+		final String emptyPassword = "";
+
+		// when trying to make an instance of it
+		Executable instanciation = () -> new PlainPassword(emptyPassword);
+
+		// then there should be an error
+		assertThrows(
+			EmptyPasswordException.class,
+			instanciation,
+			"Password shouldn't be empty"
+		);
+	}
+
+	@Test
 	public void isNotHashed()
 	{
 		// given a plain password
