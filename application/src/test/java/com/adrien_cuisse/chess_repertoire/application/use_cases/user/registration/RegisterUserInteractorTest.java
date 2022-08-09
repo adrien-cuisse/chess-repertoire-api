@@ -1,27 +1,28 @@
 
 package com.adrien_cuisse.chess_repertoire.application.use_cases.user.registration;
 
-import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.CredentialsDTO;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByMailAddressQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
+import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.MailAddress;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.Nickname;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.HashedPassword;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.PlainPassword;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -466,5 +467,52 @@ public final class RegisterUserInteractorTest
 			times(1)
 				.description("User should be registered if credentials are valid and available")
 		).execute(any(RegisterAccountCommand.class));
+	}
+
+	@Test
+	public void registersTheUserWithTrimmedCredentials()
+	{
+		// given a registration request with an available nickname, available mail address and a strong password
+		UserRegistrationRequest request = new UserRegistrationRequest(
+			"  nick   name ",
+			" f o o    @ b a r . o r g ",
+			"xO9$iS6&kZ4!wD9_jM4>qS2{fX5@iP4("
+		);
+
+		// when processing the registration
+		this.interactor.execute(request, this.presenter);
+
+		// then the account should be created with formatted credentials
+		ArgumentCaptor<RegisterAccountCommand> command = ArgumentCaptor.forClass(RegisterAccountCommand.class);
+		verify(this.registerAccountHandlerMock).execute(command.capture());
+		org.junit.jupiter.api.Assertions.assertAll(
+			"Formatting credentials",
+			() -> assertEquals("nick name", command.getValue().nickname().toString()),
+			() -> assertEquals("foo@bar.org", command.getValue().mailAddress().toString())
+		);
+	}
+
+	@Test
+	public void registersTheUserWithHashedPassword()
+	{
+		// given a registration request with an available nickname, available mail address and a strong password
+		UserRegistrationRequest request = new UserRegistrationRequest(
+			"  nick   name ",
+			" f o o    @ b a r . o r g ",
+			"oK2;mS8+cV9{xN9&yU3\"jJ8<eH9}gU9:"
+		);
+		when(this.passwordHasherMock.hashPassword(any())).thenReturn(new HashedPassword("hash"));
+
+		// when processing the registration
+		this.interactor.execute(request, this.presenter);
+
+		// then the account should be created with formatted credentials
+		ArgumentCaptor<RegisterAccountCommand> command = ArgumentCaptor.forClass(RegisterAccountCommand.class);
+		verify(this.registerAccountHandlerMock).execute(command.capture());
+		assertEquals(
+			"hash",
+			command.getValue().hashedPassword().toString(),
+			"User should be registered with its password hash"
+		);
 	}
 }

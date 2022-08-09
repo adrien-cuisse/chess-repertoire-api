@@ -26,7 +26,7 @@ public final class RegisterUserInteractor
 
 	private static final Pattern ALPHANUM_START_PATTERN = Pattern.compile("^[a-zA-Z0-9]");
 
-	private static final Pattern VALID_NICKNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9\\-_]+$");
+	private static final Pattern VALID_NICKNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9]([a-zA-Z0-9 \\-_]*)$");
 
 	private final static Pattern MAIL_ADDRESS_PATTERN = Pattern.compile("^(.+)@(\\S+)$");
 
