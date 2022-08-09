@@ -9,6 +9,7 @@ public final class PlainPassword implements IPassword
 
     /**
      * @throws NullPasswordException - if password is null
+     * @throws EmptyPasswordException - if password is empty
      */
     public PlainPassword(final String password)
     {

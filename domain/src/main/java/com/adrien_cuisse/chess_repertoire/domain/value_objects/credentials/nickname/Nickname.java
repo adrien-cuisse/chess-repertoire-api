@@ -9,6 +9,7 @@ public final class Nickname implements IValueObject
 
     /**
      * @throws NullNicknameException - if nickname is null
+     * @throws EmptyNicknameException - if nickname is empty
      */
     public Nickname(final String nickname)
     {
