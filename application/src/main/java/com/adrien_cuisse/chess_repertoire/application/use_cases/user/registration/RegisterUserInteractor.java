@@ -9,11 +9,23 @@ import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.MailAddress;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.NullMailAddressException;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.*;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.*;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.HashedPassword;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.PlainPassword;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
+
+import java.util.regex.Pattern;
 
 public final class RegisterUserInteractor
 {
+	private static final Pattern LOWERCASE_PATTERN = Pattern.compile("[a-z]");
+
+	private static final Pattern UPPERCASE_PATTERN = Pattern.compile("[A-Z]");
+
+	private static final Pattern DIGITS_PATTERN = Pattern.compile("[0-9]");
+
+	// OWASP strong password recommendation
+	private static final Pattern SYMBOLS_PATTERN = Pattern.compile("[!~<>,;:_=?*+#.\"&§%°()|\\[\\]\\-$^@/]");
+
 	private final FindCredentialsByNicknameQuery.IHandler findUserByNicknameHandler;
 
 	private final FindCredentialsByMailAddressQuery.IHandler findUserByMailAddressHandler;
@@ -104,19 +116,52 @@ public final class RegisterUserInteractor
 
 	private boolean isPasswordInvalid(final UserRegistrationRequest request, final UserRegistrationResponse response)
 	{
-		try { new PlainPassword(request.password()); }
-		catch (NullPasswordException exception) { response.passwordIsMissing = true; }
-		catch (PasswordTooShortException exception) { response.passwordIsTooShort = true; }
-		catch (PasswordTooLongException exception) { response.passwordIsTooLong = true; }
-		catch (PasswordWithoutLowercaseException exception) { response.passwordIsTooWeak = true; }
-		catch (PasswordWithoutUppercaseException exception) { response.passwordIsTooWeak = true; }
-		catch (PasswordWithoutDigitsException exception) { response.passwordIsTooWeak = true; }
-		catch (PasswordWithoutSymbolsException exception) { response.passwordIsTooWeak = true; }
+		final String password = request.password();
+
+		if (password == null)
+			response.passwordIsMissing = true;
+		else if (password.length() < 6)
+			response.passwordIsTooShort = true;
+		else if (password.length() > 64)
+			response.passwordIsTooLong = true;
+		else if (containsLowercase(password) == false)
+			response.passwordIsTooWeak = true;
+		else if (containsUpperCase(password) == false)
+			response.passwordIsTooWeak = true;
+		else if (containsDigits(password) == false)
+			response.passwordIsTooWeak = true;
+		else if (containsSymbols(password) == false)
+			response.passwordIsTooWeak = true;
 
 		return response.passwordIsMissing
 			|| response.passwordIsTooWeak
 			|| response.passwordIsTooShort
 			|| response.passwordIsTooLong;
+	}
+
+	private boolean containsLowercase(final String password)
+	{
+		return containsAnyCharacter(password, LOWERCASE_PATTERN);
+	}
+
+	private boolean containsUpperCase(final String password)
+	{
+		return containsAnyCharacter(password, UPPERCASE_PATTERN);
+	}
+
+	private boolean containsDigits(final String password)
+	{
+		return containsAnyCharacter(password, DIGITS_PATTERN);
+	}
+
+	private boolean containsSymbols(final String password)
+	{
+		return containsAnyCharacter(password, SYMBOLS_PATTERN);
+	}
+
+	private boolean containsAnyCharacter(final String password, final Pattern regex)
+	{
+		return regex.matcher(password).find();
 	}
 
 	private void hashPasswordAndRegisterUser(final UserRegistrationRequest request)

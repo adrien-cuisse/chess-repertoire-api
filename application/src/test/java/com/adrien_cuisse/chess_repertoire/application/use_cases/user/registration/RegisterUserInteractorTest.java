@@ -265,7 +265,7 @@ public final class RegisterUserInteractorTest
 		UserRegistrationRequest request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
-			"a"
+			"aA1#"
 		);
 
 		// when trying to process the registration
