@@ -7,10 +7,10 @@ import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredential
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address.MailAddress;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.nickname.Nickname;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.HashedPassword;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.PlainPassword;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.MailAddress;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.Nickname;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.HashedPassword;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.PlainPassword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

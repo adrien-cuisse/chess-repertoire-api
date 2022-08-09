@@ -5,11 +5,11 @@ import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredential
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address.InvalidMailAddressException;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address.MailAddress;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address.NullMailAddressException;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.nickname.*;
-import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.*;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.InvalidMailAddressException;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.MailAddress;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address.NullMailAddressException;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname.*;
+import com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password.*;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 
 public final class RegisterUserInteractor

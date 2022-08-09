@@ -1,5 +1,5 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.nickname;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.nickname;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
 
@@ -34,8 +34,8 @@ public final class Nickname implements IValueObject
 
     public boolean equals(final IValueObject other)
     {
-        if (other instanceof Nickname)
-            return this.nickname.equals(((Nickname) other).nickname);
+        if (other instanceof Nickname otherInstance)
+            return this.nickname.equals(otherInstance.nickname);
         return false;
     }
 

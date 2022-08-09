@@ -1,5 +1,5 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.password;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
 
@@ -58,8 +58,8 @@ public final class PlainPassword implements IPassword
 
     public boolean equals(final IValueObject other)
     {
-        if (other instanceof PlainPassword)
-            return this.password.equals(((PlainPassword) other).password);
+        if (other instanceof PlainPassword otherInstance)
+            return this.password.equals(otherInstance.password);
         return false;
     }
 

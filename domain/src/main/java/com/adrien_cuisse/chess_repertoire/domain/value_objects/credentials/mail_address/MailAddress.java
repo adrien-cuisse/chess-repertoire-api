@@ -1,5 +1,5 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.credentials.mail_address;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
 
@@ -28,8 +28,8 @@ public final class MailAddress implements IValueObject
 
     public boolean equals(final IValueObject other)
     {
-        if (other instanceof MailAddress)
-            return this.mailAddress.equals(((MailAddress) other).mailAddress);
+        if (other instanceof MailAddress otherInstance)
+            return this.mailAddress.equals(otherInstance.mailAddress);
         return false;
     }
 

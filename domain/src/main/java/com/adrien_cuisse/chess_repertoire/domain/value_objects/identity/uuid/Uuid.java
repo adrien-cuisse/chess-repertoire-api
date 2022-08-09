@@ -75,8 +75,8 @@ final class Uuid implements IUuid
 
     public boolean equals(final IValueObject other)
     {
-        if (other instanceof IUuid)
-            return this.toNative().equals(((IUuid) other).toNative());
+        if (other instanceof IUuid otherInstance)
+            return this.toNative().equals(otherInstance.toNative());
         return false;
     }
 
