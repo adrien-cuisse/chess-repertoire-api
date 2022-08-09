@@ -26,6 +26,10 @@ public final class RegisterUserInteractor
 	// OWASP strong password recommendation
 	private static final Pattern SYMBOLS_PATTERN = Pattern.compile("[!~<>,;:_=?*+#.\"&§%°()|\\[\\]\\-$^@/]");
 
+	private static final Pattern ALPHANUM_START_PATTERN = Pattern.compile("^[a-zA-Z0-9]");
+
+	private static final Pattern VALID_NICKNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9\\-_]+$");
+
 	private final FindCredentialsByNicknameQuery.IHandler findUserByNicknameHandler;
 
 	private final FindCredentialsByMailAddressQuery.IHandler findUserByMailAddressHandler;
@@ -71,14 +75,23 @@ public final class RegisterUserInteractor
 		final UserRegistrationRequest request,
 		final UserRegistrationResponse response
 	) {
-		try {
-			new Nickname(request.nickname());
-			response.nicknameIsAlreadyTaken = isNicknameAlreadyTaken(request);
-		}
-		catch (NullNicknameException exception) { response.nicknameIsMissing = true; }
-		catch (NicknameTooShortException exception) { response.nicknameIsTooShort = true; }
-		catch (NicknameTooLongException exception) { response.nicknameIsTooLong = true; }
-		catch (InvalidNicknameException exception) { response.nicknameIsInvalid = true; }
+		if (request.nickname() == null)
+			return response.nicknameIsMissing = true;
+
+		final String nickname = request.nickname().replace("\\s+", "\\s").trim();
+
+		if (nickname.equals(""))
+			response.nicknameIsMissing = true;
+		else if (nickname.length() < 2)
+			response.nicknameIsTooShort = true;
+		else if (nickname.length() > 16)
+			response.nicknameIsTooLong = true;
+		else if (nicknameContainsInvalidCharacters(nickname))
+			response.nicknameIsInvalid = true;
+		else if (startsWithAlphanum(nickname) == false)
+			response.nicknameIsInvalid = true;
+		else if (isNicknameAlreadyTaken(request))
+			response.nicknameIsAlreadyTaken = true;
 
 		return response.nicknameIsMissing
 			|| response.nicknameIsTooShort
@@ -139,29 +152,39 @@ public final class RegisterUserInteractor
 			|| response.passwordIsTooLong;
 	}
 
-	private boolean containsLowercase(final String password)
+	private boolean containsLowercase(final String text)
 	{
-		return containsAnyCharacter(password, LOWERCASE_PATTERN);
+		return regexMatches(text, LOWERCASE_PATTERN);
 	}
 
-	private boolean containsUpperCase(final String password)
+	private boolean containsUpperCase(final String text)
 	{
-		return containsAnyCharacter(password, UPPERCASE_PATTERN);
+		return regexMatches(text, UPPERCASE_PATTERN);
 	}
 
-	private boolean containsDigits(final String password)
+	private boolean containsDigits(final String text)
 	{
-		return containsAnyCharacter(password, DIGITS_PATTERN);
+		return regexMatches(text, DIGITS_PATTERN);
 	}
 
-	private boolean containsSymbols(final String password)
+	private boolean containsSymbols(final String text)
 	{
-		return containsAnyCharacter(password, SYMBOLS_PATTERN);
+		return regexMatches(text, SYMBOLS_PATTERN);
 	}
 
-	private boolean containsAnyCharacter(final String password, final Pattern regex)
+	private boolean nicknameContainsInvalidCharacters(final String nickname)
 	{
-		return regex.matcher(password).find();
+		return regexMatches(nickname, VALID_NICKNAME_PATTERN) == false;
+	}
+
+	private boolean startsWithAlphanum(final String text)
+	{
+		return regexMatches(text, ALPHANUM_START_PATTERN);
+	}
+
+	private boolean regexMatches(final String text, final Pattern regex)
+	{
+		return regex.matcher(text).find();
 	}
 
 	private void hashPasswordAndRegisterUser(final UserRegistrationRequest request)

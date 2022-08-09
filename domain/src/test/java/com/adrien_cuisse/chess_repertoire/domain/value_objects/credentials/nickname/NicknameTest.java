@@ -12,16 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class NicknameTest
 {
-    public  static Object[][] trimming()
-    {
-        return new Object[][] {
-            { " foo", "foo" },
-            { "bar ", "bar" },
-            { "b   az", "baz"},
-            { "foo . bar - a _ baz", "foo.bar-a_baz" }
-        };
-    }
-
     @Test
     public void isNotNull()
     {
@@ -39,110 +29,46 @@ public final class NicknameTest
         );
     }
 
+    @Test
+    public void isNotEmpty()
+    {
+        // given an empty nickname
+        final String emptyNickname = "";
+
+        // when trying to make an instance of it
+        Executable instantiation = () -> new Nickname(emptyNickname);
+
+        // then there should be an error
+        assertThrows(
+            EmptyNicknameException.class,
+            instantiation,
+            "Nickname shouldn't be empty"
+        );
+    }
+
+    public static Object[][] trimming()
+    {
+        return new Object[][] {
+            { "foo ", "foo" },
+            { " bar", "bar" },
+            { "foo    bar", "foo bar" },
+        };
+    }
+
     @ParameterizedTest
     @MethodSource("trimming")
-    public void hasNoWhitespaces(final String pollutedNickname, final String trimmedNickname)
+    public void isTrimmed(final String pollutedNickname, final String trimmedNickname)
     {
-        // given a nickname
+        // given a nickname with useless whitespaces
+
+        // when making an instance of it
         final Nickname nickname = new Nickname(pollutedNickname);
 
-        // when checking its actual format
-        final String actualNickname = nickname.toString();
-
-        // then it should be the expected trimmed one
+        // then it should have been trimmed
         assertEquals(
             trimmedNickname,
-            actualNickname,
-            "Nickname shouldn't contain whitespaces"
-        );
-    }
-
-    @Test
-    public void isAtLeast2CharactersLong()
-    {
-        // given nickname with invalid length (after trimming)
-        final String invalidNickname = "i  ";
-
-        // when trying to create an instance from it
-        Executable instantiation = () -> new Nickname(invalidNickname);
-
-        // then an exception should be thrown
-        assertThrows(
-            NicknameTooShortException.class,
-            instantiation,
-            "Nickname shouldn't be instantiated when its length is lesser than 2"
-        );
-    }
-
-    @Test
-    public void isAtMost16CharactersLong()
-    {
-        // given nickname with invalid length
-        final String invalidNickname = "01234567890123456";
-
-        // when trying to create an instance from it
-        Executable instantiation = () -> new Nickname(invalidNickname);
-
-        // then an exception should be thrown
-        assertThrows(
-            NicknameTooLongException.class,
-            instantiation,
-            "Nickname shouldn't be instantiated when its length is greater than 16"
-        );
-    }
-
-    public static Object[][] invalidCharacters()
-    {
-        return new Object[][] {
-            { '!' }, { '"' }, { '#' }, { '$' }, { '%' },
-            { '&' }, { '\'' }, { '(' }, { ')' }, { '*' },
-            { '+' }, { ',' }, { '/' }, { ':' }, { ';' },
-            { '<' }, { '=' }, { '>' }, { '?' }, { '@' },
-            { '[' }, { '\\' }, { ']' }, { '^' }, { '`' },
-            { '{' }, { '|' }, { '}' },{ '~' }, { '°' },
-        };
-    }
-
-    @ParameterizedTest
-    @MethodSource("invalidCharacters")
-    public void expectsValidSymbols(final Character invalidSymbol)
-    {
-        // given a nickname containing invalid symbols
-        final String invalidNickname = "012345678901234" + invalidSymbol.toString();
-
-        // when trying to create an instance from it
-        Executable instantiation = () -> new Nickname(invalidNickname);
-
-        // then an exception should be thrown
-        assertThrows(
-            InvalidNicknameException.class,
-            instantiation,
-            "Nickname shouldn't contain symbol"
-        );
-    }
-
-    public static Object[][] validCharacters()
-    {
-        return new Object[][] {
-            { '-' }, { '.' }, { '_' },
-        };
-    }
-
-    @ParameterizedTest
-    @MethodSource("validCharacters")
-    public void mustStartWithAlphaNum(final Character validSymbol)
-    {
-        // given a nickname starting with a valid symbol
-        final String invalidNickname = validSymbol.toString() + "012345678901234";
-
-        // when trying to create an instance from it
-        Executable instantiation = () -> new Nickname(invalidNickname);
-
-        // then an exception should be thrown
-        assertThrows(
-            InvalidNicknameException.class,
-            instantiation,
-            "Nickname should start with an alpha-numeric character"
+            nickname.toString(),
+            "Nickname shouldn't contain useless whitespaces"
         );
     }
 

@@ -68,7 +68,7 @@ public final class RegisterUserInteractorTest
 	}
 
 	@Test
-	public void requiresUsername()
+	public void requiresNickname()
 	{
 		// given a registration request without nickname
 		UserRegistrationRequest request = new UserRegistrationRequest(
@@ -88,7 +88,7 @@ public final class RegisterUserInteractorTest
 	}
 
 	@Test
-	public void requiresNonBlankUsername()
+	public void requiresNonBlankNickname()
 	{
 		// given a registration request with a blank nickname
 		UserRegistrationRequest request = new UserRegistrationRequest(
@@ -102,13 +102,13 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "nickname too short" error
 		assertTrue(
-			this.presenter.response().nicknameIsTooShort,
+			this.presenter.response().nicknameIsMissing,
 			"Registration shouldn't be possible without nickname"
 		);
 	}
 
 	@Test
-	public void requiresLongEnoughUsername()
+	public void requiresLongEnoughNickname()
 	{
 		// given a registration request with a too short nickname
 		UserRegistrationRequest request = new UserRegistrationRequest(
@@ -128,7 +128,7 @@ public final class RegisterUserInteractorTest
 	}
 
 	@Test
-	public void requiresShortEnoughUsername()
+	public void requiresShortEnoughNickname()
 	{
 		// given a registration request with a too long nickname
 		UserRegistrationRequest request = new UserRegistrationRequest(
@@ -147,12 +147,54 @@ public final class RegisterUserInteractorTest
 		);
 	}
 
-	@Test
-	public void requiresNicknameWithValidCharacters()
+	public static Object[][] invalidCharacters()
+	{
+		return new Object[][] {
+			{ '!' }, { '"' }, { '#' }, { '$' }, { '%' },
+			{ '&' }, { '\'' }, { '(' }, { ')' }, { '*' },
+			{ '+' }, { ',' }, { '/' }, { ':' }, { ';' },
+			{ '<' }, { '=' }, { '>' }, { '?' }, { '@' },
+			{ '[' }, { '\\' }, { ']' }, { '^' }, { '`' },
+			{ '{' }, { '|' }, { '}' },{ '~' }, { '°' },
+			{ '.' },
+		};
+	}
+
+	@ParameterizedTest
+	@MethodSource("invalidCharacters")
+	public void requiresNicknameWithValidCharacters(final Character invalidCharacter)
 	{
 		// given a registration request with a nickname containing illegal characters
 		UserRegistrationRequest request = new UserRegistrationRequest(
-			"@.",
+			"012345678901234" + invalidCharacter.toString(),
+			"foo@bar.org",
+			"iD9#tS3(fF5{dF2!hQ0+dI6,nV1>xJ4%"
+		);
+
+		// when trying to process the registration
+		this.interactor.execute(request, this.presenter);
+
+		// then there should be a "invalid nickname" error
+ 		assertTrue(
+			this.presenter.response().nicknameIsInvalid,
+			"Registration shouldn't be possible with a nickname containing illegal characters"
+		);
+	}
+
+	public static Object[][] validCharacters()
+	{
+		return new Object[][] {
+			{ '-' }, { '_' },
+		};
+	}
+
+	@ParameterizedTest
+	@MethodSource("validCharacters")
+	public void requiresNicknameStartingWithAlphanum(final Character validCharacter)
+	{
+		// given a registration request with a nickname containing illegal characters
+		UserRegistrationRequest request = new UserRegistrationRequest(
+			validCharacter.toString() + "nickname",
 			"foo@bar.org",
 			"iD9#tS3(fF5{dF2!hQ0+dI6,nV1>xJ4%"
 		);
@@ -163,7 +205,7 @@ public final class RegisterUserInteractorTest
 		// then there should be a "invalid nickname" error
 		assertTrue(
 			this.presenter.response().nicknameIsInvalid,
-			"Registration shouldn't be possible with a nickname containing illegal characters"
+			"Registration shouldn't be possible with a nickname which doesn't start with alphanum"
 		);
 	}
 
