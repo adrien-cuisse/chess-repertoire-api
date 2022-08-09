@@ -1,8 +1,8 @@
 
 package com.adrien_cuisse.chess_repertoire.application.use_cases.user.registration;
 
-import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByMailAddressQuery;
-import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByNicknameQuery;
+import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByMailAddressQuery;
+import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address.InvalidMailAddressException;
@@ -14,17 +14,17 @@ import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.Uui
 
 public final class RegisterUserInteractor
 {
-	private final FindAccountByNicknameQuery.IHandler findUserByNicknameHandler;
+	private final FindCredentialsByNicknameQuery.IHandler findUserByNicknameHandler;
 
-	private final FindAccountByMailAddressQuery.IHandler findUserByMailAddressHandler;
+	private final FindCredentialsByMailAddressQuery.IHandler findUserByMailAddressHandler;
 
 	private final RegisterAccountCommand.IHandler registerUserHandler;
 
 	private final IPasswordHasher passwordHasher;
 
 	public RegisterUserInteractor(
-		final FindAccountByNicknameQuery.IHandler findUserByNicknameHandler,
-		final FindAccountByMailAddressQuery.IHandler findUserByMailAddressHandler,
+		final FindCredentialsByNicknameQuery.IHandler findUserByNicknameHandler,
+		final FindCredentialsByMailAddressQuery.IHandler findUserByMailAddressHandler,
 		final RegisterAccountCommand.IHandler registerUserHandler,
 		final IPasswordHasher passwordHasher
 	) {
@@ -77,7 +77,7 @@ public final class RegisterUserInteractor
 
 	private boolean isNicknameAlreadyTaken(final UserRegistrationRequest request)
 	{
-		final FindAccountByNicknameQuery query = new FindAccountByNicknameQuery(request.nickname());
+		final FindCredentialsByNicknameQuery query = new FindCredentialsByNicknameQuery(request.nickname());
 		return this.findUserByNicknameHandler.execute(query).isPresent();
 	}
 
@@ -98,7 +98,7 @@ public final class RegisterUserInteractor
 	}
 
 	private boolean isMailAddressAlreadyTaken(final UserRegistrationRequest request) {
-		final FindAccountByMailAddressQuery query = new FindAccountByMailAddressQuery(request.mailAddress());
+		final FindCredentialsByMailAddressQuery query = new FindCredentialsByMailAddressQuery(request.mailAddress());
 		return this.findUserByMailAddressHandler.execute(query).isPresent();
 	}
 

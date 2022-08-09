@@ -6,7 +6,7 @@ import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_addr
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.nickname.Nickname;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.password.HashedPassword;
 
-public record Account(
+public record CredentialsDTO(
 	IIdentity<?> ownerIdentity,
 	Nickname nickname,
 	MailAddress mailAddress,

@@ -2,9 +2,9 @@
 package com.adrien_cuisse.chess_repertoire.application.use_cases.user.registration;
 
 import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
-import com.adrien_cuisse.chess_repertoire.application.dto.account.Account;
-import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByMailAddressQuery;
-import com.adrien_cuisse.chess_repertoire.application.dto.account.FindAccountByNicknameQuery;
+import com.adrien_cuisse.chess_repertoire.application.dto.account.CredentialsDTO;
+import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByMailAddressQuery;
+import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.identity.uuid.UuidV4;
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.account.mail_address.MailAddress;
@@ -30,15 +30,15 @@ public final class RegisterUserInteractorTest
 	private RawUserRegistrationPresenter presenter;
 
 	@Mock
-	private FindAccountByNicknameQuery.IHandler findAccountByNicknameHandlerMock;
+	private FindCredentialsByNicknameQuery.IHandler findAccountByNicknameHandlerMock;
 
 	@Mock
-	private FindAccountByMailAddressQuery.IHandler findAccountByMailAddressHandlerMock;
+	private FindCredentialsByMailAddressQuery.IHandler findAccountByMailAddressHandlerMock;
 
 	@Mock
 	private RegisterAccountCommand.IHandler registerAccountHandlerMock;
 
-	private final Account existingAccount = new Account(
+	private final CredentialsDTO existingAccount = new CredentialsDTO(
 		new UuidV4("00000000-0000-4000-0000-000000000000"),
 		new Nickname("nickname"),
 		new MailAddress("foo@bar.org"),
@@ -308,7 +308,7 @@ public final class RegisterUserInteractorTest
 			"eT8!uZ3!yY0~fB4#eX1(xL0(eW8!zB7)"
 		);
 		// and that nickname being already taken
-		when(this.findAccountByNicknameHandlerMock.execute(new FindAccountByNicknameQuery("TakenNickname")))
+		when(this.findAccountByNicknameHandlerMock.execute(new FindCredentialsByNicknameQuery("TakenNickname")))
 			.thenReturn(Optional.of(this.existingAccount));
 
 		// when trying to process the registration
@@ -331,7 +331,7 @@ public final class RegisterUserInteractorTest
 			"yC4{wW1~kV8:dR7^cF4_tO6*uG3+dE5+"
 		);
 		// and that mail address being already taken
-		when(this.findAccountByMailAddressHandlerMock.execute(new FindAccountByMailAddressQuery("taken@mail.org")))
+		when(this.findAccountByMailAddressHandlerMock.execute(new FindCredentialsByMailAddressQuery("taken@mail.org")))
 			.thenReturn(Optional.of(this.existingAccount));
 
 		// when trying to process the registration
