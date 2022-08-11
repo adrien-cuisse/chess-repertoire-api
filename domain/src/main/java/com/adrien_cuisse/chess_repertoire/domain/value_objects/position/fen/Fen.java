@@ -161,10 +161,10 @@ public final class Fen implements IValueObject
 		if (kingMoved)
 			throw new ConflictingCastlingException("black", "player", "king", "" + KING_FILE + BLACK_PIECES_RANK_INDEX);
 
-		final char[] blackPieces = ranks[BLACK_PIECES_RANK_INDEX].toCharArray();
-		if (queenSidePossibility && blackPieces[0] != 'r')
+		final char[] pieces = ranks[BLACK_PIECES_RANK_INDEX].toCharArray();
+		if (queenSidePossibility && pieces[0] != 'r')
 			throw new ConflictingCastlingException("black", "queen side", "rook", "a8");
-		if (kingSidePossibility && blackPieces[blackPieces.length - 1] != 'r')
+		if (kingSidePossibility && pieces[pieces.length - 1] != 'r')
 			throw new ConflictingCastlingException("black", "king side", "rook", "h8");
 	}
 
@@ -181,10 +181,10 @@ public final class Fen implements IValueObject
 		if (kingMoved)
 			throw new ConflictingCastlingException("white", "player", "king", "" + KING_FILE + WHITE_PIECES_RANK_INDEX);
 
-		final char[] whitePieces = ranks[WHITE_PIECES_RANK_INDEX].toCharArray();
-		if (queenSidePossibility && whitePieces[0] != 'R')
+		final char[] pieces = ranks[WHITE_PIECES_RANK_INDEX].toCharArray();
+		if (queenSidePossibility && pieces[0] != 'R')
 			throw new ConflictingCastlingException("white", "queen side", "rook", "a1");
-		if (kingSidePossibility && whitePieces[whitePieces.length - 1] != 'R')
+		if (kingSidePossibility && pieces[pieces.length - 1] != 'R')
 			throw new ConflictingCastlingException("white", "king side", "rook", "h1");
 	}
 
