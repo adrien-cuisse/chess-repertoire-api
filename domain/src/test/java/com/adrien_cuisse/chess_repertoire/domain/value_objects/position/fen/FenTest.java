@@ -449,7 +449,7 @@ public final class FenTest
 
 	@ParameterizedTest
 	@MethodSource("comparison")
-	public void equalsSameName(
+	public void equalsSameFen(
 		final Fen fen,
 		final IValueObject other,
 		final boolean expectedEquality,
