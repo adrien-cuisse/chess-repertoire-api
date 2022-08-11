@@ -77,23 +77,19 @@ public final class RegisterUserInteractor
 		final String nickname = request.nickname().replace("\\s+", "\\s").trim();
 
 		if (nickname.equals(""))
-			response.nicknameIsMissing = true;
-		else if (nickname.length() < 2)
+			return response.nicknameIsMissing = true;
+		if (nickname.length() < 2)
 			response.nicknameIsTooShort = true;
-		else if (nickname.length() > 16)
-			response.nicknameIsTooLong = true;
-		else if (nicknameContainsInvalidCharacters(nickname))
-			response.nicknameIsInvalid = true;
-		else if (startsWithAlphanum(nickname) == false)
-			response.nicknameIsInvalid = true;
-		else if (nicknameIsAlreadyTaken(request))
-			response.nicknameIsAlreadyTaken = true;
+		if (nickname.length() > 16)
+			return response.nicknameIsTooLong = true;
+		if (nicknameContainsInvalidCharacters(nickname))
+			return response.nicknameIsInvalid = true;
+		if (startsWithAlphanum(nickname) == false)
+			return response.nicknameIsInvalid = true;
+		if (nicknameIsAlreadyTaken(request))
+			return response.nicknameIsAlreadyTaken = true;
 
-		return response.nicknameIsMissing
-			|| response.nicknameIsTooShort
-			|| response.nicknameIsTooLong
-			|| response.nicknameIsInvalid
-			|| response.nicknameIsAlreadyTaken;
+		return false;
 	}
 
 	private boolean nicknameIsAlreadyTaken(final UserRegistrationRequest request)
@@ -112,15 +108,13 @@ public final class RegisterUserInteractor
 		final String mailAddress = request.mailAddress().replace(" ", "");
 
 		if (mailAddress.equals(""))
-			response.mailAddressIsMissing = true;
-		else if (mailAddressHasInvalidFormat(mailAddress))
-			response.mailAddressIsInvalid = true;
-		else if (mailAddressIsAlreadyTaken(request))
-			response.mailAddressIsAlreadyTaken = true;
+			return response.mailAddressIsMissing = true;
+		if (mailAddressHasInvalidFormat(mailAddress))
+			return response.mailAddressIsInvalid = true;
+		if (mailAddressIsAlreadyTaken(request))
+			return response.mailAddressIsAlreadyTaken = true;
 
-		return response.mailAddressIsMissing
-			|| response.mailAddressIsInvalid
-			|| response.mailAddressIsAlreadyTaken;
+		return false;
 	}
 
 	private boolean mailAddressIsAlreadyTaken(final UserRegistrationRequest request) {
@@ -133,26 +127,23 @@ public final class RegisterUserInteractor
 		final String password = request.password();
 
 		if (password == null)
-			response.passwordIsMissing = true;
-		else if (password.equals(""))
-			response.passwordIsMissing = true;
-		else if (password.length() < 6)
-			response.passwordIsTooShort = true;
-		else if (password.length() > 64)
-			response.passwordIsTooLong = true;
-		else if (containsLowercase(password) == false)
-			response.passwordIsTooWeak = true;
-		else if (containsUpperCase(password) == false)
-			response.passwordIsTooWeak = true;
-		else if (containsDigits(password) == false)
-			response.passwordIsTooWeak = true;
-		else if (containsSymbols(password) == false)
-			response.passwordIsTooWeak = true;
+			return response.passwordIsMissing = true;
+		if (password.equals(""))
+			return response.passwordIsMissing = true;
+		if (password.length() < 6)
+			return response.passwordIsTooShort = true;
+		if (password.length() > 64)
+			return response.passwordIsTooLong = true;
+		if (containsLowercase(password) == false)
+			return response.passwordIsTooWeak = true;
+		if (containsUpperCase(password) == false)
+			return response.passwordIsTooWeak = true;
+		if (containsDigits(password) == false)
+			return response.passwordIsTooWeak = true;
+		if (containsSymbols(password) == false)
+			return response.passwordIsTooWeak = true;
 
-		return response.passwordIsMissing
-			|| response.passwordIsTooWeak
-			|| response.passwordIsTooShort
-			|| response.passwordIsTooLong;
+		return false;
 	}
 
 	private boolean containsLowercase(final String text)
