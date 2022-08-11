@@ -1,5 +1,5 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.position;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.position.name;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
 import org.junit.jupiter.api.Test;
@@ -30,36 +30,19 @@ public final class PositionNameTest
 	}
 
 	@Test
-	public void isLongEnough()
+	public void isNotEmpty()
 	{
-		// given a name which is too short
-		final String name = "a";
+		// given an empty name
+		final String emptyName = "";
 
-		// when trying to create an instance from it
-		Executable instantiation =  () -> new PositionName(name);
+		// when trying to make an instance of it
+		Executable instantiation = () -> new PositionName(emptyName);
 
-		// then there should be a "name too short" error
+		// then there should be an error
 		assertThrows(
-			PositionNameTooShortException.class,
+			EmptyPositionNameException.class,
 			instantiation,
-			"Name should be long enough"
-		);
-	}
-
-	@Test
-	public void isShortEnough()
-	{
-		// given a name which is too long
-		final String name = "a".repeat(256);
-
-		// when trying to create an instance from it
-		Executable instantiation =  () -> new PositionName(name);
-
-		// then there should be a "name too long" error
-		assertThrows(
-			PositionNameTooLongException.class,
-			instantiation,
-			"Name should be short enough"
+			"Name shouldn't be empty"
 		);
 	}
 

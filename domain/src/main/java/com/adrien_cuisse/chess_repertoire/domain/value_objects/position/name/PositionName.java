@@ -1,14 +1,10 @@
 
-package com.adrien_cuisse.chess_repertoire.domain.value_objects.position;
+package com.adrien_cuisse.chess_repertoire.domain.value_objects.position.name;
 
 import com.adrien_cuisse.chess_repertoire.domain.value_objects.IValueObject;
 
 public final class PositionName implements IValueObject
 {
-	private static final int MINIMUM_LENGTH = 2;
-
-	private static final int MAXIMUM_LENGTH = 80;
-
 	private final String name;
 
 	public PositionName(final String name)
@@ -16,11 +12,9 @@ public final class PositionName implements IValueObject
 		if (name == null)
 			throw new NullPositionNameException();
 
-		this.name = name.trim().replaceAll("\\s\\s*", " ");
-		if (this.name.length() < MINIMUM_LENGTH)
-			throw new PositionNameTooShortException(name, MINIMUM_LENGTH);
-		else if (this.name.length() > MAXIMUM_LENGTH)
-			throw new PositionNameTooLongException(name, MAXIMUM_LENGTH);
+		this.name = name.trim().replaceAll("\\s+", " ");
+		if (this.name.equals(""))
+			throw new EmptyPositionNameException();
 	}
 
 	public boolean equals(final IValueObject other)
