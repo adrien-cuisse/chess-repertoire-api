@@ -30,7 +30,7 @@ public final class Fen implements IValueObject
 
 	private static final char KING_FILE = 'e';
 
-	final String fen;
+	private final String fen;
 
 	/**
 	 * @throws NullFenException - if fen is null
