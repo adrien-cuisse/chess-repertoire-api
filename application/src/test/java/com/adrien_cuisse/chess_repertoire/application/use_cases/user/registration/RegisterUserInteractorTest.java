@@ -68,7 +68,7 @@ public final class RegisterUserInteractorTest
 	public void requiresNickname()
 	{
 		// given a registration request without nickname
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			null,
 			"foo@bar.org",
 			"oG8\"aP6&fV3_gG9?oI2;hC2{jP4,vS8."
@@ -88,7 +88,7 @@ public final class RegisterUserInteractorTest
 	public void requiresNonBlankNickname()
 	{
 		// given a registration request with a blank nickname
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"         ",
 			"foo@bar.org",
 			"rO7{bB7{wL3\"jC4{aC5>bI9@rU2~rA9_"
@@ -108,7 +108,7 @@ public final class RegisterUserInteractorTest
 	public void requiresLongEnoughNickname()
 	{
 		// given a registration request with a too short nickname
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"a",
 			"foo@bar.org",
 			"tU0^eC2&hP8^yB8<oI4&vG5}iI2~zZ2>"
@@ -128,7 +128,7 @@ public final class RegisterUserInteractorTest
 	public void requiresShortEnoughNickname()
 	{
 		// given a registration request with a too long nickname
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"0123456789012345678",
 			"foo@bar.org",
 			"aJ7)bU9~rL5<gM9?jV8*eU5*tD5{jD5("
@@ -162,7 +162,7 @@ public final class RegisterUserInteractorTest
 	public void requiresNicknameWithValidCharacters(final Character invalidCharacter)
 	{
 		// given a registration request with a nickname containing illegal characters
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"012345678901234" + invalidCharacter.toString(),
 			"foo@bar.org",
 			"iD9#tS3(fF5{dF2!hQ0+dI6,nV1>xJ4%"
@@ -190,7 +190,7 @@ public final class RegisterUserInteractorTest
 	public void requiresNicknameStartingWithAlphanum(final Character validCharacter)
 	{
 		// given a registration request with a nickname containing illegal characters
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			validCharacter.toString() + "nickname",
 			"foo@bar.org",
 			"iD9#tS3(fF5{dF2!hQ0+dI6,nV1>xJ4%"
@@ -210,7 +210,7 @@ public final class RegisterUserInteractorTest
 	public void requiresMailAddress()
 	{
 		// given a registration request without mail address
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			null,
 			"rM5#eW1?vA2>jU4)uK8!zJ0?cC8\"bX4^"
@@ -230,7 +230,7 @@ public final class RegisterUserInteractorTest
 	public void requiresNonBlankMailAddress()
 	{
 		// given a registration request with a blank mail address
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"",
 			"mI2%yU9(jV8:iR8.xR8>kW2{tQ3\"pQ6;"
@@ -250,7 +250,7 @@ public final class RegisterUserInteractorTest
 	public void requiresValidMailAddress()
 	{
 		// given a registration request without mail address
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"not a mail address",
 			"wF8.yT9>nS1*sP8*nM5(sE1%aW5*lF9)"
@@ -270,7 +270,7 @@ public final class RegisterUserInteractorTest
 	public void requiresPassword()
 	{
 		// given a registration request without password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
 			null
@@ -290,7 +290,7 @@ public final class RegisterUserInteractorTest
 	public void requiresNonBlankPassword()
 	{
 		// given a registration request with a blank password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
 			""
@@ -321,7 +321,7 @@ public final class RegisterUserInteractorTest
 	public void requiresStrongPassword(final String weakPassword)
 	{
 		// given a registration request with a weak password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
 			weakPassword
@@ -341,7 +341,7 @@ public final class RegisterUserInteractorTest
 	public void requiresLongEnoughPassword()
 	{
 		// given a registration request with a too short password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
 			"aA1#"
@@ -361,7 +361,7 @@ public final class RegisterUserInteractorTest
 	public void requiresShortEnoughPassword()
 	{
 		// given a registration request with a too long password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
 			"aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3aB#3 67"
@@ -381,7 +381,7 @@ public final class RegisterUserInteractorTest
 	public void requiresAvailableNickname()
 	{
 		// given a registration request with a nickname
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"TakenNickname",
 			"foo@bar.org",
 			"eT8!uZ3!yY0~fB4#eX1(xL0(eW8!zB7)"
@@ -404,7 +404,7 @@ public final class RegisterUserInteractorTest
 	public void requiresAvailableMailAddress()
 	{
 		// given a registration request with a mail address
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"taken@mail.org",
 			"yC4{wW1~kV8:dR7^cF4_tO6*uG3+dE5+"
@@ -427,7 +427,7 @@ public final class RegisterUserInteractorTest
 	public void hashesPassword()
 	{
 		// given a registration request with an available nickname, available mail address and a strong password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
 			"tM2?tZ4)cV7#mN2(mW9<eI7:jX1,gC7}"
@@ -448,7 +448,7 @@ public final class RegisterUserInteractorTest
 	public void registersTheUser()
 	{
 		// given a registration request with an available nickname, available mail address and a strong password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"nickname",
 			"foo@bar.org",
 			"xO9$iS6&kZ4!wD9_jM4>qS2{fX5@iP4("
@@ -470,7 +470,7 @@ public final class RegisterUserInteractorTest
 	public void registersTheUserWithTrimmedCredentials()
 	{
 		// given a registration request with an available nickname, available mail address and a strong password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"  nick   name ",
 			" f o o    @ b a r . o r g ",
 			"xO9$iS6&kZ4!wD9_jM4>qS2{fX5@iP4("
@@ -493,7 +493,7 @@ public final class RegisterUserInteractorTest
 	public void registersTheUserWithHashedPassword()
 	{
 		// given a registration request with an available nickname, available mail address and a strong password
-		UserRegistrationRequest request = new UserRegistrationRequest(
+		final var request = new UserRegistrationRequest(
 			"  nick   name ",
 			" f o o    @ b a r . o r g ",
 			"oK2;mS8+cV9{xN9&yU3\"jJ8<eH9}gU9:"

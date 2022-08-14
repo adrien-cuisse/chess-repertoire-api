@@ -19,7 +19,7 @@ public final class MailAddressTest
 		final String invalidMailAddress = null;
 
 		// when trying to make an instance of it
-		Executable instantiation = () -> new MailAddress(invalidMailAddress);
+		final Executable instantiation = () -> new MailAddress(invalidMailAddress);
 
 		// then there should be an error
 		assertThrows(
@@ -36,7 +36,7 @@ public final class MailAddressTest
 		final String emptyMailAddress = "";
 
 		// when trying to make an instance of it
-		Executable instantiation = () -> new MailAddress(emptyMailAddress);
+		final Executable instantiation = () -> new MailAddress(emptyMailAddress);
 
 		// then there should be an error
 		assertThrows(
@@ -53,7 +53,7 @@ public final class MailAddressTest
 		final String invalidMailAddress = "invalid mail address";
 
 		// when trying to make an instance of it
-		Executable instantiation = () -> new MailAddress(invalidMailAddress);
+		final Executable instantiation = () -> new MailAddress(invalidMailAddress);
 
 		// then there should be an error
 		assertThrows(
@@ -65,9 +65,9 @@ public final class MailAddressTest
 
 	public static Object[][] comparison()
 	{
-		final MailAddress mailAddress = new MailAddress("foo@bar.org");
+		final var mailAddress = new MailAddress("foo@bar.org");
 
-		final IValueObject otherValueObject = new IValueObject() {
+		final var otherValueObject = new IValueObject() {
 			public boolean equals(IValueObject other) { return false; }
 		};
 
@@ -100,7 +100,7 @@ public final class MailAddressTest
 	public void hasNoWhitespaces()
 	{
 		// given a mail address with useless spaces
-		final MailAddress mail = new MailAddress(" f o o @  ba r .  org ");
+		final var mail = new MailAddress(" f o o @  ba r .  org ");
 
 		// when checking its actual format
 		final String format = mail.toString();

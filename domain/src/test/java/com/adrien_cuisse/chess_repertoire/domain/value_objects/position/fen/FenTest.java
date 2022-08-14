@@ -417,7 +417,7 @@ public final class FenTest
 		final String trimmableFenString = " rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR  w   KQkq  -  0    1 ";
 
 		// when making an instance of it
-		final Fen fen = new Fen(trimmableFenString);
+		final var fen = new Fen(trimmableFenString);
 
 		// then it should be trimmed
 		assertEquals(
@@ -431,11 +431,11 @@ public final class FenTest
 	{
 		final String fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-		final Fen fen = new Fen(fenString);
+		final var fen = new Fen(fenString);
 
-		final Fen differentStringFen = new Fen("r2q1rk1/p1p2ppp/1bp3n1/3pP3/3P1PQ1/2N1B2P/PP6/2KR3R b - f3 0 18");
+		final var differentStringFen = new Fen("r2q1rk1/p1p2ppp/1bp3n1/3pP3/3P1PQ1/2N1B2P/PP6/2KR3R b - f3 0 18");
 
-		final IValueObject otherValueObject = new IValueObject() {
+		final var otherValueObject = new IValueObject() {
 			public boolean equals(IValueObject other) { return false; }
 		};
 

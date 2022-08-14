@@ -48,7 +48,7 @@ public final class RegisterUserInteractor
 
 	public void execute(final UserRegistrationRequest request, final IUserRegistrationPresenter presenter)
 	{
-		final UserRegistrationResponse response = new UserRegistrationResponse();
+		final var response = new UserRegistrationResponse();
 
 		if (credentialsAreValidAndAvailable(request, response))
 			hashPasswordAndRegisterUser(request);
@@ -61,8 +61,8 @@ public final class RegisterUserInteractor
 		final UserRegistrationResponse response
 	) {
 		boolean errorOccured = nicknameIsInvalidOrTaken(request, response);
-		errorOccured = mailAddressIsInvalidOrTaken(request, response) || errorOccured;
-		errorOccured = passwordIsInvalid(request, response) || errorOccured;
+		errorOccured |= mailAddressIsInvalidOrTaken(request, response);
+		errorOccured |= passwordIsInvalid(request, response);
 
 		return errorOccured == false;
 	}
@@ -79,7 +79,7 @@ public final class RegisterUserInteractor
 		if (nickname.equals(""))
 			return response.nicknameIsMissing = true;
 		if (nickname.length() < 2)
-			response.nicknameIsTooShort = true;
+			return response.nicknameIsTooShort = true;
 		if (nickname.length() > 16)
 			return response.nicknameIsTooLong = true;
 		if (nicknameContainsInvalidCharacters(nickname))
@@ -94,7 +94,7 @@ public final class RegisterUserInteractor
 
 	private boolean nicknameIsAlreadyTaken(final UserRegistrationRequest request)
 	{
-		final FindCredentialsByNicknameQuery query = new FindCredentialsByNicknameQuery(request.nickname());
+		final var query = new FindCredentialsByNicknameQuery(request.nickname());
 		return this.findUserByNicknameHandler.execute(query).isPresent();
 	}
 
@@ -118,7 +118,7 @@ public final class RegisterUserInteractor
 	}
 
 	private boolean mailAddressIsAlreadyTaken(final UserRegistrationRequest request) {
-		final FindCredentialsByMailAddressQuery query = new FindCredentialsByMailAddressQuery(request.mailAddress());
+		final var query = new FindCredentialsByMailAddressQuery(request.mailAddress());
 		return this.findUserByMailAddressHandler.execute(query).isPresent();
 	}
 
@@ -190,7 +190,7 @@ public final class RegisterUserInteractor
 	{
 		final String hashedPassword = this.passwordHasher.hashPassword(request.password());
 
-		final RegisterAccountCommand command = new RegisterAccountCommand(
+		final var command = new RegisterAccountCommand(
 			new UuidV4().toString(),
 			request.nickname().replaceAll("\\s+", " ").trim(),
 			request.mailAddress().replaceAll("\\s", "").trim(),

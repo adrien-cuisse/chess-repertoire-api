@@ -97,7 +97,7 @@ final class Uuid implements IUuid
 
     public String toString()
     {
-        final StringBuilder builder = new StringBuilder();
+        final var builder = new StringBuilder();
         final List<Integer> dashesPosition = Arrays.asList(4, 6, 8, 10);
 
         for (int bytesCount = 0; bytesCount < this.bytes.length; bytesCount++)

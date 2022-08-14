@@ -22,7 +22,7 @@ public final class UuidTest
         final byte[] bytes = null;
 
         // when trying to make an instance of it
-        Executable instantiation = () -> new Uuid(bytes);
+        final Executable instantiation = () -> new Uuid(bytes);
 
         // then there should be an error
         assertThrows(
@@ -39,7 +39,7 @@ public final class UuidTest
         final byte[] bytes = null;
 
         // when trying to make an instance of it
-        Executable instantiation = () -> new Uuid(bytes, 1);
+        final Executable instantiation = () -> new Uuid(bytes, 1);
 
         // then there should be an error
         assertThrows(
@@ -56,7 +56,7 @@ public final class UuidTest
         final byte[] bytes = null;
 
         // when trying to make an instance of it
-        Executable instantiation = () -> new Uuid(bytes, 1, IUuid.Variant.RFC_VARIANT);
+        final Executable instantiation = () -> new Uuid(bytes, 1, IUuid.Variant.RFC_VARIANT);
 
         // then there should be an error
         assertThrows(
@@ -73,7 +73,7 @@ public final class UuidTest
         final String uuid = null;
 
         // when trying to make an instance of it
-        Executable instantiation = () -> new Uuid(uuid, 1);
+        final Executable instantiation = () -> new Uuid(uuid, 1);
 
         // then there should be an error
         assertThrows(
@@ -85,14 +85,14 @@ public final class UuidTest
 
     public static byte[] nullBytes()
     {
-        final byte[] bytes = new byte[16];
+        final var bytes = new byte[16];
         Arrays.fill(bytes, (byte) 0);
         return bytes;
     }
 
     public static byte[] nullBytesAndVersion(final int version)
     {
-        byte[] bytes = nullBytes();
+        final byte[] bytes = nullBytes();
         bytes[6] = (byte) (((version & 0b0000_1111) << 4) | (bytes[6] & 0b0000_1111));
         return bytes;
     }
@@ -101,10 +101,10 @@ public final class UuidTest
     public void requires16Bytes1()
     {
         // given an invalid bytes count
-        final byte[] bytes = new byte[] { 0x42 };
+        final var bytes = new byte[] { 0x42 };
 
         // when trying to create a UUID from it
-        Executable instantiation = () -> new Uuid(bytes);
+        final Executable instantiation = () -> new Uuid(bytes);
 
         // then an exception should be thrown
         assertThrows(
@@ -118,10 +118,10 @@ public final class UuidTest
     public void requires16Bytes2()
     {
         // given an invalid bytes count
-        final byte[] bytes = new byte[] { 0x42 };
+        final var bytes = new byte[] { 0x42 };
 
         // when trying to create a UUID from it
-        Executable instantiation = () -> new Uuid(bytes, 1);
+        final Executable instantiation = () -> new Uuid(bytes, 1);
 
         // then an exception should be thrown
         assertThrows(
@@ -135,10 +135,10 @@ public final class UuidTest
     public void requires16Bytes3()
     {
         // given an invalid bytes count
-        final byte[] bytes = new byte[] { 0x42 };
+        final var bytes = new byte[] { 0x42 };
 
         // when trying to create a UUID from it
-        Executable instantiation = () -> new Uuid(bytes, 1, IUuid.Variant.RFC_VARIANT);
+        final Executable instantiation = () -> new Uuid(bytes, 1, IUuid.Variant.RFC_VARIANT);
 
         // then an exception should be thrown
         assertThrows(
@@ -155,7 +155,7 @@ public final class UuidTest
         final String format = "42";
 
         // when trying to create a UUID from it
-        Executable instantiation = () -> new Uuid(format, 0);
+        final Executable instantiation = () -> new Uuid(format, 0);
 
         // then an exception should be thrown
         assertThrows(
@@ -170,7 +170,7 @@ public final class UuidTest
     public void isTrimmed()
     {
         // given a UUID made from a string representation with spaces
-        final Uuid uuid = new Uuid("   00 000000-000 0-00 00-00 00-000 000 00000 0   ", 0);
+        final var uuid = new Uuid("   00 000000-000 0-00 00-00 00-000 000 00000 0   ", 0);
 
         // when checking its format
         final String format = uuid.toString();
@@ -191,7 +191,7 @@ public final class UuidTest
         final int wrongVersion = 0xe;
 
         // when trying to build a UUID from it
-        Executable instantiation = () -> new Uuid(format, wrongVersion);
+        final Executable instantiation = () -> new Uuid(format, wrongVersion);
 
         // then an exception should be thrown
         assertThrows(
@@ -205,7 +205,7 @@ public final class UuidTest
     public void isRfcCompliant()
     {
         // given a valid UUID
-        final IUuid uuid = new Uuid(nullBytes());
+        final var uuid = new Uuid(nullBytes());
 
         // when checking its string format
         final String format = uuid.toNative();
@@ -231,7 +231,7 @@ public final class UuidTest
     public void hasSpecifiedVersion(final int expectedVersion)
     {
         // given a UUID from specified bytes, and a version
-        final IUuid uuid = new Uuid(nullBytesAndVersion(expectedVersion), expectedVersion);
+        final var uuid = new Uuid(nullBytesAndVersion(expectedVersion), expectedVersion);
 
         // when checking the actual version of the UUID
         final int actualVersion = uuid.version();
@@ -249,7 +249,7 @@ public final class UuidTest
     public void versionIsThe13thDigit(final int expectedVersion)
     {
         // given a UUID from specified bytes, and a version
-        final IUuid uuid = new Uuid(nullBytesAndVersion(expectedVersion), expectedVersion);
+        final var uuid = new Uuid(nullBytesAndVersion(expectedVersion), expectedVersion);
 
         // when checking the string representation of the UUID
         final String format = uuid.toString();
@@ -266,10 +266,10 @@ public final class UuidTest
     public void requiresVariant()
     {
         // given no variant
-        IUuid.Variant variant = null;
+        final IUuid.Variant variant = null;
 
         // when trying to make an instance of it
-        Executable instantiation = () -> new Uuid(nullBytes(), 1, variant);
+        final Executable instantiation = () -> new Uuid(nullBytes(), 1, variant);
 
         // then an exception should be thrown
         assertThrows(
@@ -294,7 +294,7 @@ public final class UuidTest
     public void hasSpecifiedVariant(final IUuid.Variant expectedVariant, final List<Character> __)
     {
         // given a UUID given specified bytes, and a variant
-        final Uuid uuid = new Uuid(nullBytes(), 0, expectedVariant);
+        final var uuid = new Uuid(nullBytes(), 0, expectedVariant);
 
         // when checking the actual variant of the UUID
         final IUuid.Variant actualVariant = uuid.variant();
@@ -312,7 +312,7 @@ public final class UuidTest
     public void variantIsThe17thDigit(final IUuid.Variant expectedVariant, final List<Character> possibleVariantDigits)
     {
         // given a UUID given specified bytes, and a variant
-        final Uuid uuid = new Uuid(nullBytes(), 0, expectedVariant);
+        final var uuid = new Uuid(nullBytes(), 0, expectedVariant);
 
         // when checking the variant digit in the string representation of the UUID
         final Character actualVariantDigit = uuid.toString().charAt(19);
@@ -339,7 +339,7 @@ public final class UuidTest
     public void buildsFromString(final String expectedFormat, final int expectedVersion, final IUuid.Variant __)
     {
         // given an UUID made from a string
-        final IUuid uuid = new Uuid(expectedFormat, expectedVersion);
+        final var uuid = new Uuid(expectedFormat, expectedVersion);
 
         // when checking its string representation
         final String actualFormat = uuid.toString();
@@ -357,7 +357,7 @@ public final class UuidTest
     public void parsesVersionFromString(final String expectedFormat, final int expectedVersion, final IUuid.Variant __)
     {
         // given a UUID made from a string
-        final IUuid uuid = new Uuid(expectedFormat, expectedVersion);
+        final var uuid = new Uuid(expectedFormat, expectedVersion);
 
         // when checking its version
         final int actualVersion = uuid.version();
@@ -375,7 +375,7 @@ public final class UuidTest
     public void parsesVariantFromString(final String expectedFormat, final int expectedVersion, final IUuid.Variant expectedVariant)
     {
         // given an UUID made from a string
-        final IUuid uuid = new Uuid(expectedFormat, expectedVersion);
+        final var uuid = new Uuid(expectedFormat, expectedVersion);
 
         // when checking its variant
         final IUuid.Variant actualVariant = uuid.variant();
@@ -395,7 +395,7 @@ public final class UuidTest
         final String invalidFormat = "00000000-0z00-0000-0000-000000000000";
 
         // when trying to create a UUID from it
-        Executable instantiation = () -> new Uuid(invalidFormat, 0);
+        final Executable instantiation = () -> new Uuid(invalidFormat, 0);
 
         // then an exception should be thrown
         assertThrows(
@@ -407,14 +407,14 @@ public final class UuidTest
 
     public static Object[][] comparison()
     {
-        final Uuid uuid = new Uuid(nullBytesAndVersion(1));
+        final var uuid = new Uuid(nullBytesAndVersion(1));
 
-        final IIdentity<String> otherIdentity = new IIdentity<String>() {
+        final var otherIdentity = new IIdentity<String>() {
             public String toNative() { return "42"; }
             public boolean equals(final IValueObject other) { return false; }
         };
 
-        final IValueObject otherValueObject = new IValueObject() {
+        final var otherValueObject = new IValueObject() {
             public boolean equals(IValueObject other) { return false; }
         };
 

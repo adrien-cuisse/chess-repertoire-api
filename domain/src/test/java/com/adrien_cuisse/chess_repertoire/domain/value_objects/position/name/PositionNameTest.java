@@ -19,7 +19,7 @@ public final class PositionNameTest
 		final String invalidName = null;
 
 		// when trying to make an instance of it
-		Executable instantiation = () -> new PositionName(invalidName);
+		final Executable instantiation = () -> new PositionName(invalidName);
 
 		// then there should be an error
 		assertThrows(
@@ -36,7 +36,7 @@ public final class PositionNameTest
 		final String emptyName = "";
 
 		// when trying to make an instance of it
-		Executable instantiation = () -> new PositionName(emptyName);
+		final Executable instantiation = () -> new PositionName(emptyName);
 
 		// then there should be an error
 		assertThrows(
@@ -53,7 +53,7 @@ public final class PositionNameTest
 		final String pollutedName = " foo   bar   ";
 
 		// when making an instance of it
-		final PositionName name = new PositionName(pollutedName);
+		final var name = new PositionName(pollutedName);
 
 		// then it shouldn't contain useless spaces anymore
 		assertEquals(
@@ -65,9 +65,9 @@ public final class PositionNameTest
 
 	public static Object[][] comparison()
 	{
-		final PositionName name = new PositionName("name");
+		final var name = new PositionName("name");
 
-		final IValueObject otherValueObject = new IValueObject() {
+		final var otherValueObject = new IValueObject() {
 			public boolean equals(IValueObject other) { return false; }
 		};
 

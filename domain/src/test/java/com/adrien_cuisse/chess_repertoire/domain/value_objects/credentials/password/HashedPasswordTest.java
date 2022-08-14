@@ -18,7 +18,7 @@ public final class HashedPasswordTest
 		final String invalidPassword = null;
 
 		// when trying to make an instance of it
-		Executable instantiation = () -> new HashedPassword(invalidPassword);
+		final Executable instantiation = () -> new HashedPassword(invalidPassword);
 
 		// then there should be an error
 		assertThrows(
@@ -32,7 +32,7 @@ public final class HashedPasswordTest
 	public void isHashed()
 	{
 		// given a hashed password
-		final HashedPassword password = new HashedPassword("hashed");
+		final var password = new HashedPassword("hashed");
 
 		// when checking if it's hashed
 		final boolean isHashed = password.isHashed();
@@ -46,9 +46,9 @@ public final class HashedPasswordTest
 
 	public static Object[][] comparison()
 	{
-		final HashedPassword password = new HashedPassword("uM3@xR3{hM4.yP6)pU4?cA3%cV1{nR9+");
+		final var password = new HashedPassword("uM3@xR3{hM4.yP6)pU4?cA3%cV1{nR9+");
 
-		final IValueObject otherValueObject = new IValueObject() {
+		final var otherValueObject = new IValueObject() {
 			public boolean equals(IValueObject other) { return false; }
 		};
 
@@ -81,7 +81,7 @@ public final class HashedPasswordTest
 	public void printsAsString()
 	{
 		// given a hashed password
-		final HashedPassword hash = new HashedPassword("hash");
+		final var hash = new HashedPassword("hash");
 
 		// when checking its string representation
 		final String format = hash.toString();

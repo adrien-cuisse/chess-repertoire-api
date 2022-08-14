@@ -16,7 +16,7 @@ public final class UuidV4Test
 {
     public static byte[] nullBytes()
     {
-        final byte[] bytes = new byte[16];
+        final var bytes = new byte[16];
         Arrays.fill(bytes, (byte) 0);
         return bytes;
     }
@@ -25,7 +25,7 @@ public final class UuidV4Test
     public void is32HexDigitsLong()
     {
         // given an uuid
-        final UuidV4 uuid = new UuidV4();
+        final var uuid = new UuidV4();
 
         // when checking how many digits are composing its string representation
         final int digitsCount = uuid.toString().replace("-", "").length();
@@ -42,7 +42,7 @@ public final class UuidV4Test
     public void isVersion4()
     {
         // given a new uuid
-        final UuidV4 uuid = new UuidV4();
+        final var uuid = new UuidV4();
 
         // when checking its version
         final int version = uuid.version();
@@ -59,7 +59,7 @@ public final class UuidV4Test
     public void isRfcVariant()
     {
         // given a new uuid
-        final UuidV4 uuid = new UuidV4();
+        final var uuid = new UuidV4();
 
         // when checking its variant
         final IUuid.Variant variant = uuid.variant();
@@ -74,17 +74,17 @@ public final class UuidV4Test
 
     public static Object[][] equality() // throws InvalidUuidException, InvalidUuidV4Exception
     {
-        final UuidV4 uuid = new UuidV4();
-        final IUuid otherInstance = new UuidV4();
-        final IUuid otherImplementation = new Uuid(nullBytes(), 0);
-        final IUuid sameStringRepresentation = new UuidV4(uuid.toString());
+        final var uuid = new UuidV4();
+        final var otherInstance = new UuidV4();
+        final var otherImplementation = new Uuid(nullBytes(), 0);
+        final var sameStringRepresentation = new UuidV4(uuid.toString());
 
-        final IIdentity<String> otherIdentity = new IIdentity<String>() {
+        final var otherIdentity = new IIdentity<String>() {
             public String toNative() { return "42"; }
             public boolean equals(final IValueObject other) { return false; }
         };
 
-        final IValueObject otherValueObject = new IValueObject() {
+        final var otherValueObject = new IValueObject() {
             public boolean equals(IValueObject other) { return false; }
         };
 
@@ -119,8 +119,8 @@ public final class UuidV4Test
     public void isUnique()
     {
         // given 2 uuids built the same way
-        final UuidV4 first = new UuidV4();
-        final UuidV4 second = new UuidV4();
+        final var first = new UuidV4();
+        final var second = new UuidV4();
 
         // when comparing them
         final boolean instancesAreTheSame = first.equals(second);
@@ -153,7 +153,7 @@ public final class UuidV4Test
     public void isTrimmed()
     {
         // given a uuid with useless spaces
-        final UuidV4 uuid = new UuidV4("   00 000000-000 0-40 00-00 00-000 000 00000 0   ");
+        final var uuid = new UuidV4("   00 000000-000 0-40 00-00 00-000 000 00000 0   ");
 
         // when checking its format
         final String format = uuid.toString();

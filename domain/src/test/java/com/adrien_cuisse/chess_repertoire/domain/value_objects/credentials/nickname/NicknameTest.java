@@ -19,7 +19,7 @@ public final class NicknameTest
         final String invalidNickname = null;
 
         // when trying to make an instance of it
-        Executable instantiation = () -> new Nickname(invalidNickname);
+        final Executable instantiation = () -> new Nickname(invalidNickname);
 
         // then there should be an error
         assertThrows(
@@ -36,7 +36,7 @@ public final class NicknameTest
         final String emptyNickname = "";
 
         // when trying to make an instance of it
-        Executable instantiation = () -> new Nickname(emptyNickname);
+        final Executable instantiation = () -> new Nickname(emptyNickname);
 
         // then there should be an error
         assertThrows(
@@ -62,7 +62,7 @@ public final class NicknameTest
         // given a nickname with useless whitespaces
 
         // when making an instance of it
-        final Nickname nickname = new Nickname(pollutedNickname);
+        final var nickname = new Nickname(pollutedNickname);
 
         // then it should have been trimmed
         assertEquals(
@@ -74,9 +74,9 @@ public final class NicknameTest
 
     public static Object[][] comparison()
     {
-        final Nickname nickname = new Nickname("nickname");
+        final var nickname = new Nickname("nickname");
 
-        final IValueObject otherValueObject = new IValueObject() {
+        final var otherValueObject = new IValueObject() {
             public boolean equals(IValueObject other) { return false; }
         };
 

@@ -53,7 +53,7 @@ public final class UuidV4 implements IUuid
 
     private static byte[] randomBytes()
     {
-        final byte[] randomBytes = new byte[16];
+        final var randomBytes = new byte[16];
         generator.nextBytes(randomBytes);
         return randomBytes;
     }

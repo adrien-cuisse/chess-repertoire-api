@@ -18,7 +18,7 @@ public final class PlainPasswordTest
 		final String invalidPassword = null;
 
 		// when trying to make an instance of it
-		Executable instantiation = () -> new PlainPassword(invalidPassword);
+		final Executable instantiation = () -> new PlainPassword(invalidPassword);
 
 		// then there should be an error
 		assertThrows(
@@ -35,7 +35,7 @@ public final class PlainPasswordTest
 		final String emptyPassword = "";
 
 		// when trying to make an instance of it
-		Executable instanciation = () -> new PlainPassword(emptyPassword);
+		final Executable instanciation = () -> new PlainPassword(emptyPassword);
 
 		// then there should be an error
 		assertThrows(
@@ -49,7 +49,7 @@ public final class PlainPasswordTest
 	public void isNotHashed()
 	{
 		// given a plain password
-		final PlainPassword password = new PlainPassword("qB1)dH3:dO1(aI8@mT2^rZ8#tM2.fD0}");
+		final var password = new PlainPassword("qB1)dH3:dO1(aI8@mT2^rZ8#tM2.fD0}");
 
 		// when checking if it's hashed
 		final boolean isHashed = password.isHashed();
@@ -63,9 +63,9 @@ public final class PlainPasswordTest
 
 	public static Object[][] comparison()
 	{
-		final PlainPassword password = new PlainPassword("hO5*oU4%hC6<jG3<mC0~yI3}fR3{bS5.");
+		final var password = new PlainPassword("hO5*oU4%hC6<jG3<mC0~yI3}fR3{bS5.");
 
-		final IValueObject otherValueObject = new IValueObject() {
+		final var otherValueObject = new IValueObject() {
 			public boolean equals(IValueObject other) { return false; }
 		};
 
@@ -98,7 +98,7 @@ public final class PlainPasswordTest
 	public void printsAsString()
 	{
 		// given a plain password
-		final PlainPassword password = new PlainPassword("mR8.aZ1{zI1*pP5,lN7*eB9#eM7*zY4:");
+		final var password = new PlainPassword("mR8.aZ1{zI1*pP5,lN7*eB9#eM7*zY4:");
 
 		// when checking its string representation
 		final String format = password.toString();
