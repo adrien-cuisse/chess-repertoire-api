@@ -1,66 +1,47 @@
 
 package com.adrien_cuisse.chess_repertoire.application.use_cases.user.registration;
 
-import com.adrien_cuisse.chess_repertoire.application.dto.account.CredentialsDTO;
+import com.adrien_cuisse.chess_repertoire.application.doubles.dto.account.FindCredentialsByTakenMailAddressFake;
+import com.adrien_cuisse.chess_repertoire.application.doubles.dto.account.FindCredentialsByTakenNicknameFake;
+import com.adrien_cuisse.chess_repertoire.application.doubles.dto.account.RegisterAccountMock;
+import com.adrien_cuisse.chess_repertoire.application.doubles.services.PasswordHasherStub;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByMailAddressQuery;
 import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
-import com.adrien_cuisse.chess_repertoire.application.dto.account.RegisterAccountCommand;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
-@ExtendWith(MockitoExtension.class)
 public final class RegisterUserInteractorTest
 {
-	private RawUserRegistrationPresenter presenter;
+	private UserRegistrationPresenterMock presenter;
 
-	@Mock
-	private FindCredentialsByNicknameQuery.IHandler findAccountByNicknameHandlerMock;
+	private final FindCredentialsByNicknameQuery.IHandler findCredentialsByTakenNickNameFake =
+		new FindCredentialsByTakenNicknameFake();
 
-	@Mock
-	private FindCredentialsByMailAddressQuery.IHandler findAccountByMailAddressHandlerMock;
+	private final FindCredentialsByMailAddressQuery.IHandler findCredentialsByMailAddressFake =
+		new FindCredentialsByTakenMailAddressFake();
 
-	@Mock
-	private RegisterAccountCommand.IHandler registerAccountHandlerMock;
-
-	private final CredentialsDTO existingAccount = new CredentialsDTO(
-		"00000000-0000-4000-0000-000000000000",
-		"nickname",
-		"foo@bar.org",
-		"hashed"
-	);
+	private RegisterAccountMock registerAccountMock;
 
 	private RegisterUserInteractor interactor;
 
-	@Mock
-	private IPasswordHasher passwordHasherMock;
+	private final IPasswordHasher passwordHasherStub = new PasswordHasherStub();
 
 	@BeforeEach
 	public void setup()
 	{
-		reset(this.findAccountByNicknameHandlerMock);
-		reset(this.findAccountByMailAddressHandlerMock);
-		reset(this.registerAccountHandlerMock);
-		reset(this.passwordHasherMock);
+		this.registerAccountMock = new RegisterAccountMock();
+		this.presenter = new UserRegistrationPresenterMock();
 
-		this.presenter = new RawUserRegistrationPresenter();
 		this.interactor = new RegisterUserInteractor(
-			this.findAccountByNicknameHandlerMock,
-			this.findAccountByMailAddressHandlerMock,
-			this.registerAccountHandlerMock,
-			this.passwordHasherMock
+			this.findCredentialsByTakenNickNameFake,
+			this.findCredentialsByMailAddressFake,
+			this.registerAccountMock,
+			this.passwordHasherStub
 		);
 	}
 
@@ -79,7 +60,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "missing nickname" error
 		assertTrue(
-			this.presenter.response().nicknameIsMissing,
+			this.presenter.receivedResponse().nicknameIsMissing,
 			"Registration shouldn't be possible without nickname"
 		);
 	}
@@ -99,7 +80,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "missing nickname" error
 		assertTrue(
-			this.presenter.response().nicknameIsMissing,
+			this.presenter.receivedResponse().nicknameIsMissing,
 			"Registration shouldn't be possible without nickname"
 		);
 	}
@@ -119,7 +100,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "nickname too short" error
 		assertTrue(
-			this.presenter.response().nicknameIsTooShort,
+			this.presenter.receivedResponse().nicknameIsTooShort,
 			"Registration shouldn't be possible with a too short nickname"
 		);
 	}
@@ -139,7 +120,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "nickname too short" error
 		assertTrue(
-			this.presenter.response().nicknameIsTooLong,
+			this.presenter.receivedResponse().nicknameIsTooLong,
 			"Registration shouldn't be possible with a too long nickname"
 		);
 	}
@@ -171,9 +152,9 @@ public final class RegisterUserInteractorTest
 		// when trying to process the registration
 		this.interactor.execute(request, this.presenter);
 
-		// then there should be a "invalid nickname" error
+		// then there should be an "invalid nickname" error
  		assertTrue(
-			this.presenter.response().nicknameIsInvalid,
+			this.presenter.receivedResponse().nicknameIsInvalid,
 			"Registration shouldn't be possible with a nickname containing illegal characters"
 		);
 	}
@@ -199,9 +180,9 @@ public final class RegisterUserInteractorTest
 		// when trying to process the registration
 		this.interactor.execute(request, this.presenter);
 
-		// then there should be a "invalid nickname" error
+		// then there should be an "invalid nickname" error
 		assertTrue(
-			this.presenter.response().nicknameIsInvalid,
+			this.presenter.receivedResponse().nicknameIsInvalid,
 			"Registration shouldn't be possible with a nickname which doesn't start with alphanum"
 		);
 	}
@@ -221,7 +202,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "missing mail address" error
 		assertTrue(
-			this.presenter.response().mailAddressIsMissing,
+			this.presenter.receivedResponse().mailAddressIsMissing,
 			"Registration shouldn't be possible without mail address"
 		);
 	}
@@ -241,7 +222,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "missing mail address" error
 		assertTrue(
-			this.presenter.response().mailAddressIsMissing,
+			this.presenter.receivedResponse().mailAddressIsMissing,
 			"Registration shouldn't be possible without mail address"
 		);
 	}
@@ -259,9 +240,9 @@ public final class RegisterUserInteractorTest
 		// when trying to process the registration
 		this.interactor.execute(request, this.presenter);
 
-		// then there should be a "invalid nickname" error
+		// then there should be an "invalid nickname" error
 		assertTrue(
-			this.presenter.response().mailAddressIsInvalid,
+			this.presenter.receivedResponse().mailAddressIsInvalid,
 			"Registration shouldn't be possible without a valid mail address"
 		);
 	}
@@ -281,7 +262,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "missing password" error
 		assertTrue(
-			this.presenter.response().passwordIsMissing,
+			this.presenter.receivedResponse().passwordIsMissing,
 			"Registration shouldn't be possible without password"
 		);
 	}
@@ -301,7 +282,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "missing password" error
 		assertTrue(
-			this.presenter.response().passwordIsMissing,
+			this.presenter.receivedResponse().passwordIsMissing,
 			"Registration shouldn't be possible without password"
 		);
 	}
@@ -332,7 +313,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "weak password" error
 		assertTrue(
-			this.presenter.response().passwordIsTooWeak,
+			this.presenter.receivedResponse().passwordIsTooWeak,
 			"Registration shouldn't be possible with a weak password"
 		);
 	}
@@ -352,7 +333,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "password too short" error
 		assertTrue(
-			this.presenter.response().passwordIsTooShort,
+			this.presenter.receivedResponse().passwordIsTooShort,
 			"Registration shouldn't be possible with a too short password"
 		);
 	}
@@ -372,7 +353,7 @@ public final class RegisterUserInteractorTest
 
 		// then there should be a "password too long" error
 		assertTrue(
-			this.presenter.response().passwordIsTooLong,
+			this.presenter.receivedResponse().passwordIsTooLong,
 			"Registration shouldn't be possible with a too long password"
 		);
 	}
@@ -380,22 +361,19 @@ public final class RegisterUserInteractorTest
 	@Test
 	public void requiresAvailableNickname()
 	{
-		// given a registration request with a nickname
+		// given a registration request with an already taken nickname
 		final var request = new UserRegistrationRequest(
-			"TakenNickname",
+			"taken nickname",
 			"foo@bar.org",
 			"eT8!uZ3!yY0~fB4#eX1(xL0(eW8!zB7)"
 		);
-		// and that nickname being already taken
-		when(this.findAccountByNicknameHandlerMock.execute(new FindCredentialsByNicknameQuery("TakenNickname")))
-			.thenReturn(Optional.of(this.existingAccount));
 
 		// when trying to process the registration
 		this.interactor.execute(request, this.presenter);
 
 		// then there should be a "nickname already taken" error
 		assertTrue(
-			this.presenter.response().nicknameIsAlreadyTaken,
+			this.presenter.receivedResponse().nicknameIsAlreadyTaken,
 			"Registration shouldn't be possible with an already taken nickname"
 		);
 	}
@@ -403,45 +381,21 @@ public final class RegisterUserInteractorTest
 	@Test
 	public void requiresAvailableMailAddress()
 	{
-		// given a registration request with a mail address
+		// given a registration request with an already taken mail address
 		final var request = new UserRegistrationRequest(
 			"nickname",
-			"taken@mail.org",
+			"taken@email.org",
 			"yC4{wW1~kV8:dR7^cF4_tO6*uG3+dE5+"
 		);
-		// and that mail address being already taken
-		when(this.findAccountByMailAddressHandlerMock.execute(new FindCredentialsByMailAddressQuery("taken@mail.org")))
-			.thenReturn(Optional.of(this.existingAccount));
 
 		// when trying to process the registration
 		this.interactor.execute(request, this.presenter);
 
 		// then there should be a "mail address already taken" error
 		assertTrue(
-			this.presenter.response().mailAddressIsAlreadyTaken,
+			this.presenter.receivedResponse().mailAddressIsAlreadyTaken,
 			"Registration shouldn't be possible with an already taken mail address"
 		);
-	}
-
-	@Test
-	public void hashesPassword()
-	{
-		// given a registration request with an available nickname, available mail address and a strong password
-		final var request = new UserRegistrationRequest(
-			"nickname",
-			"foo@bar.org",
-			"tM2?tZ4)cV7#mN2(mW9<eI7:jX1,gC7}"
-		);
-
-		// when trying to process the registration
-		this.interactor.execute(request, this.presenter);
-
-		// then the password should have been hashed
-		verify(
-			this.passwordHasherMock,
-			times(1).
-				description("Password should be hashed to be put to persistence")
-		).hashPassword("tM2?tZ4)cV7#mN2(mW9<eI7:jX1,gC7}");
 	}
 
 	@Test
@@ -453,17 +407,15 @@ public final class RegisterUserInteractorTest
 			"foo@bar.org",
 			"xO9$iS6&kZ4!wD9_jM4>qS2{fX5@iP4("
 		);
-		when(this.passwordHasherMock.hashPassword(any())).thenReturn("hash");
 
 		// when processing the registration
 		this.interactor.execute(request, this.presenter);
 
-		// then the account should be created
-		verify(
-			this.registerAccountHandlerMock,
-			times(1)
-				.description("User should be registered if credentials are valid and available")
-		).execute(any(RegisterAccountCommand.class));
+		// then the account should have been registered
+		assertTrue(
+			this.registerAccountMock.wasExecuted(),
+			"User should be registered if credentials are valid and available"
+		);
 	}
 
 	@Test
@@ -480,12 +432,10 @@ public final class RegisterUserInteractorTest
 		this.interactor.execute(request, this.presenter);
 
 		// then the account should be created with formatted credentials
-		ArgumentCaptor<RegisterAccountCommand> command = ArgumentCaptor.forClass(RegisterAccountCommand.class);
-		verify(this.registerAccountHandlerMock).execute(command.capture());
-		org.junit.jupiter.api.Assertions.assertAll(
+		assertAll(
 			"Formatting credentials",
-			() -> assertEquals("nick name", command.getValue().nickname()),
-			() -> assertEquals("foo@bar.org", command.getValue().mailAddress())
+			() -> assertEquals("nick name", this.registerAccountMock.receivedCommand().nickname()),
+			() -> assertEquals("foo@bar.org", this.registerAccountMock.receivedCommand().mailAddress())
 		);
 	}
 
@@ -498,17 +448,14 @@ public final class RegisterUserInteractorTest
 			" f o o    @ b a r . o r g ",
 			"oK2;mS8+cV9{xN9&yU3\"jJ8<eH9}gU9:"
 		);
-		when(this.passwordHasherMock.hashPassword(any())).thenReturn("hash");
 
 		// when processing the registration
 		this.interactor.execute(request, this.presenter);
 
-		// then the account should be created with formatted credentials
-		ArgumentCaptor<RegisterAccountCommand> command = ArgumentCaptor.forClass(RegisterAccountCommand.class);
-		verify(this.registerAccountHandlerMock).execute(command.capture());
+		// then the account should be created with its password hash
 		assertEquals(
-			"hash",
-			command.getValue().hashedPassword(),
+			"password hash",
+			this.registerAccountMock.receivedCommand().hashedPassword(),
 			"User should be registered with its password hash"
 		);
 	}
