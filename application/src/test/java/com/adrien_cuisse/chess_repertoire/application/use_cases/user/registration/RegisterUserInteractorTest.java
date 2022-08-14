@@ -19,7 +19,7 @@ public final class RegisterUserInteractorTest
 {
 	private UserRegistrationPresenterMock presenter;
 
-	private final FindCredentialsByNicknameQuery.IHandler findCredentialsByTakenNickNameFake =
+	private final FindCredentialsByNicknameQuery.IHandler findCredentialsByNickNameFake =
 		new FindCredentialsByTakenNicknameFake();
 
 	private final FindCredentialsByMailAddressQuery.IHandler findCredentialsByMailAddressFake =
@@ -38,7 +38,7 @@ public final class RegisterUserInteractorTest
 		this.presenter = new UserRegistrationPresenterMock();
 
 		this.interactor = new RegisterUserInteractor(
-			this.findCredentialsByTakenNickNameFake,
+			this.findCredentialsByNickNameFake,
 			this.findCredentialsByMailAddressFake,
 			this.registerAccountMock,
 			this.passwordHasherStub
