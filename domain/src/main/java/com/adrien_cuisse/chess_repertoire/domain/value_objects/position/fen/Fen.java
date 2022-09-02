@@ -10,8 +10,6 @@ public final class Fen implements IValueObject
 {
 	private final static Pattern EMPTY_SQUARES_DIGIT_PATTERN = Pattern.compile("([1-8])");
 
-	private final static Pattern TURNS_COUNTER_PATTERN = Pattern.compile("^\\d+$");
-
 	private final static int RANKS_INDEX = 0;
 
 	private final static int ACTIVE_PLAYER_INDEX = 1;
@@ -218,24 +216,19 @@ public final class Fen implements IValueObject
 
 	private static void throwIfInvalidEnPassantSquare(final String enPassantSquare)
 	{
-		if (!enPassantSquare.matches("(-)|([a-h][1-8])"))
+		if (!enPassantSquare.matches("-|([a-h][36])"))
 			throw new EnPassantSquareException(enPassantSquare);
 	}
 
 	private static void throwIfInvalidPliesCounter(final String pliesCounter)
 	{
-		if (!pliesCounter.matches("^\\d+$"))
+		if (!pliesCounter.matches("0|([1-9][0-9]*)"))
 			throw new PliesCounterException(pliesCounter);
 	}
 
 	private static void throwIfInvalidTurnsCounter(final String turnsCounter)
 	{
-		final Matcher turnsCounterMatcher = TURNS_COUNTER_PATTERN.matcher(turnsCounter);
-
-		if (!turnsCounterMatcher.find())
-			throw new TurnsCounterException(turnsCounter);
-
-		if (Integer.parseInt(turnsCounterMatcher.group()) == 0)
+		if (!turnsCounter.matches("[1-9][0-9]*"))
 			throw new TurnsCounterException(turnsCounter);
 	}
 }
