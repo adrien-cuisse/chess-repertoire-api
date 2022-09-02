@@ -8,10 +8,18 @@ import java.util.Optional;
 
 public final class FindCredentialsByTakenMailAddressFake implements FindCredentialsByMailAddressQuery.IHandler
 {
+	private static final String MATCHING_MAIL_ADDRESS = "taken@email.org";
+
 	public Optional<CredentialsDTO> execute(final FindCredentialsByMailAddressQuery query)
 	{
-		if (query.mailAddress().equals("taken@email.org"))
-			return Optional.of(new CredentialsDTO("", "", "taken@email.org", ""));
+		if (query.mailAddress().equals(MATCHING_MAIL_ADDRESS))
+			return Optional.of(new CredentialsDTO("", "", MATCHING_MAIL_ADDRESS, ""));
+
 		return Optional.empty();
+	}
+
+	public String matchingMailAddress()
+	{
+		return MATCHING_MAIL_ADDRESS;
 	}
 }

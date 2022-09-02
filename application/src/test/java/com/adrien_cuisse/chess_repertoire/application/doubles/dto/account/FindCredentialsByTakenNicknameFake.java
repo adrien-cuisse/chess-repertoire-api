@@ -8,11 +8,18 @@ import java.util.Optional;
 
 public final class FindCredentialsByTakenNicknameFake implements FindCredentialsByNicknameQuery.IHandler
 {
+	private final static String MATCHING_NICKNAME = "taken nickname";
+
 	public Optional<CredentialsDTO> execute(final FindCredentialsByNicknameQuery query)
 	{
-		if (query.nickname().equals("taken nickname"))
-			return Optional.of(new CredentialsDTO("", "taken nickname", "", ""));
+		if (query.nickname().equals(MATCHING_NICKNAME))
+			return Optional.of(new CredentialsDTO("", MATCHING_NICKNAME, "", ""));
 
 		return Optional.empty();
+	}
+
+	public String matchingNickname()
+	{
+		return MATCHING_NICKNAME;
 	}
 }

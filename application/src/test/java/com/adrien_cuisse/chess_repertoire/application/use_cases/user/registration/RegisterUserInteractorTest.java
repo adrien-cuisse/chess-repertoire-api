@@ -5,8 +5,6 @@ import com.adrien_cuisse.chess_repertoire.application.doubles.dto.account.FindCr
 import com.adrien_cuisse.chess_repertoire.application.doubles.dto.account.FindCredentialsByTakenNicknameFake;
 import com.adrien_cuisse.chess_repertoire.application.doubles.dto.account.RegisterAccountMock;
 import com.adrien_cuisse.chess_repertoire.application.doubles.services.PasswordHasherStub;
-import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByMailAddressQuery;
-import com.adrien_cuisse.chess_repertoire.application.dto.account.FindCredentialsByNicknameQuery;
 import com.adrien_cuisse.chess_repertoire.application.services.IPasswordHasher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +17,10 @@ public final class RegisterUserInteractorTest
 {
 	private UserRegistrationPresenterMock presenter;
 
-	private final FindCredentialsByNicknameQuery.IHandler findCredentialsByNickNameFake =
+	private final FindCredentialsByTakenNicknameFake findCredentialsByNickNameFake =
 		new FindCredentialsByTakenNicknameFake();
 
-	private final FindCredentialsByMailAddressQuery.IHandler findCredentialsByMailAddressFake =
+	private final FindCredentialsByTakenMailAddressFake findCredentialsByMailAddressFake =
 		new FindCredentialsByTakenMailAddressFake();
 
 	private RegisterAccountMock registerAccountMock;
@@ -363,7 +361,7 @@ public final class RegisterUserInteractorTest
 	{
 		// given a registration request with an already taken nickname
 		final var request = new UserRegistrationRequest(
-			"taken nickname",
+			this.findCredentialsByNickNameFake.matchingNickname(),
 			"foo@bar.org",
 			"eT8!uZ3!yY0~fB4#eX1(xL0(eW8!zB7)"
 		);
@@ -384,7 +382,7 @@ public final class RegisterUserInteractorTest
 		// given a registration request with an already taken mail address
 		final var request = new UserRegistrationRequest(
 			"nickname",
-			"taken@email.org",
+			this.findCredentialsByMailAddressFake.matchingMailAddress(),
 			"yC4{wW1~kV8:dR7^cF4_tO6*uG3+dE5+"
 		);
 
