@@ -269,6 +269,12 @@ public final class CreatePositionInteractorTest
 			{ "8/8/8/8/8/8/8/k6K w - k6 0 1", "invalid en-passant square, 'k' is not a valid file" },
 			{ "8/8/8/8/8/8/8/k6K w - A6 0 1", "invalid en-passant square, 'A' file is uppercase" },
 			{ "8/8/8/8/8/8/8/k6K w - + 0 1", "invalid en-passant square, '+' is not a valid square" },
+			{ "8/8/8/8/8/8/8/k6K w - a1 0 1", "invalid en-passant square, it can only be on rank 3 and 6" },
+			{ "8/8/8/8/8/8/8/k6K w - a2 0 1", "invalid en-passant square, it can only be on rank 3 and 6" },
+			{ "8/8/8/8/8/8/8/k6K w - a4 0 1", "invalid en-passant square, it can only be on rank 3 and 6" },
+			{ "8/8/8/8/8/8/8/k6K w - a5 0 1", "invalid en-passant square, it can only be on rank 3 and 6" },
+			{ "8/8/8/8/8/8/8/k6K w - a7 0 1", "invalid en-passant square, it can only be on rank 3 and 6" },
+			{ "8/8/8/8/8/8/8/k6K w - a8 0 1", "invalid en-passant square, it can only be on rank 3 and 6" },
 		};
 	}
 	public static Object[][] invalidFenPlies()
