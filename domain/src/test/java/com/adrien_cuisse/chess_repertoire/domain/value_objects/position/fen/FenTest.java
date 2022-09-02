@@ -327,6 +327,12 @@ public final class FenTest
 			{ padding1 + "k6" + padding2, "invalid file"},
 			{ padding1 + "A6" + padding2, "uppercase file"},
 			{ padding1 + "+" + padding2, "invalid square notation"},
+			{ padding1 + "a1" + padding2, "rank 1"},
+			{ padding1 + "a2" + padding2, "rank 2"},
+			{ padding1 + "a4" + padding2, "rank 4"},
+			{ padding1 + "a5" + padding2, "rank 5"},
+			{ padding1 + "a7" + padding2, "rank 7"},
+			{ padding1 + "a8" + padding2, "rank 8"},
 		};
 	}
 
