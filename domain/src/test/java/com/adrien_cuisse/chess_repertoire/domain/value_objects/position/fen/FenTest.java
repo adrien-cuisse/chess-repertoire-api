@@ -208,7 +208,7 @@ public final class FenTest
 		return new Object[][] {
 			{ padding1 + "-" + padding2 }, // no player
 			{ padding1 + "a" + padding2 }, // not a player (file)
-			{ padding1 + "3" + padding2 }, // not a player (file)
+			{ padding1 + "3" + padding2 }, // not a player (rank)
 			{ padding1 + "+" + padding2 }, // not a player (symbol)
 			{ padding1 + "W" + padding2 }, // uppercase white
 			{ padding1 + "B" + padding2 }, // uppercase black
