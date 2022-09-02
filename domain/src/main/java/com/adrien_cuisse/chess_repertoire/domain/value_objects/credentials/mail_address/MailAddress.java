@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public final class MailAddress implements IValueObject
 {
-    private final static Pattern VALIDATION_PATTERN = Pattern.compile("^(.+)@(\\S+)$");
+    private static final Pattern VALIDATION_PATTERN = Pattern.compile("^(.+)@(\\S+)$");
 
     private final String mailAddress;
 

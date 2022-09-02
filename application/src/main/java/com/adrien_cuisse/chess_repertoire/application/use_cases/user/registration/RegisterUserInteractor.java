@@ -24,7 +24,7 @@ public final class RegisterUserInteractor
 
 	private static final Pattern VALID_NICKNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9]([a-zA-Z0-9 \\-_]*)$");
 
-	private final static Pattern MAIL_ADDRESS_PATTERN = Pattern.compile("^(.+)@(\\S+)$");
+	private static final Pattern MAIL_ADDRESS_PATTERN = Pattern.compile("^(.+)@(\\S+)$");
 
 	private final FindCredentialsByNicknameQuery.IHandler findUserByNicknameHandler;
 

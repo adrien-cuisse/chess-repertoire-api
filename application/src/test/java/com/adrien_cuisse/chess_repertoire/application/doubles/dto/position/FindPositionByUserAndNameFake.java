@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public final class FindPositionByUserAndNameFake implements FindPositionByUserAndNameQuery.IHandler
 {
-	private final static String MATCHING_NAME = "taken name";
+	private static final String MATCHING_NAME = "taken name";
 
 	public Optional<PositionDTO> execute(FindPositionByUserAndNameQuery query)
 	{

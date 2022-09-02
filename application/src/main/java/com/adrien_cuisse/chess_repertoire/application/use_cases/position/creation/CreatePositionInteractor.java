@@ -18,7 +18,7 @@ public final class CreatePositionInteractor
 
 	private final RegisterPositionCommand.IHandler registerPositionHandler;
 
-	private final static Pattern RANK_PATTERN = Pattern.compile(
+	private static final Pattern RANK_PATTERN = Pattern.compile(
 		"^[p1-8rnbqk]{1,8}$",
 		Pattern.CASE_INSENSITIVE
 	);

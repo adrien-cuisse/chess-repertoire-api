@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public final class AuthenticatorMock implements IAuthenticator
 {
-	private final static String MATCHING_TOKEN = "valid token";
+	private static final String MATCHING_TOKEN = "valid token";
 
 	private boolean wasExecuted = false;
 

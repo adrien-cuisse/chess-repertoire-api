@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 
 public final class Fen implements IValueObject
 {
-	private final static Pattern EMPTY_SQUARES_DIGIT_PATTERN = Pattern.compile("([1-8])");
+	private static final Pattern EMPTY_SQUARES_DIGIT_PATTERN = Pattern.compile("([1-8])");
 
-	private final static int RANKS_INDEX = 0;
+	private static final int RANKS_INDEX = 0;
 
-	private final static int ACTIVE_PLAYER_INDEX = 1;
+	private static final int ACTIVE_PLAYER_INDEX = 1;
 
 	private static final int CASTLING_POSSIBILITIES_INDEX = 2;
 
