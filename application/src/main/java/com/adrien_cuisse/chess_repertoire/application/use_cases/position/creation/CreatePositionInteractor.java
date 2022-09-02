@@ -27,16 +27,6 @@ public final class CreatePositionInteractor
 
 	private final FindPositionByUserAndFenQuery.IHandler findPositionByUserAndFenHandler;
 
-	/*private final static Pattern FEN_VALIDATION_REGEX = Pattern.compile(String.format(
-		"%s %s %s %s %s %s",
-		"(([1-8]|[pPrnbqkbnrRNBQKBNR]){1,8})/(([1-8]|[pPrnbqkbnrRNBQKBNR]){1,8}){7}", // ranks
-		"w|b", // active player
-		"(K?Q?k?q?)?|-", // castling possibilities
-		"([a-h][36])|-", // en-passant square
-		"[0-9]+", // plies counter
-		"[1-9][0-9]*" // turns counter
-	));*/
-
 	public CreatePositionInteractor(
 		final IAuthenticator authenticator,
 		final RegisterPositionCommand.IHandler registerPositionHandler,

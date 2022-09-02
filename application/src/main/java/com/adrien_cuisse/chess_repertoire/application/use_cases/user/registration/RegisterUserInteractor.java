@@ -64,7 +64,7 @@ public final class RegisterUserInteractor
 		errorOccured |= mailAddressIsInvalidOrTaken(request, response);
 		errorOccured |= passwordIsInvalid(request, response);
 
-		return errorOccured == false;
+		return !errorOccured;
 	}
 
 	private boolean nicknameIsInvalidOrTaken(
@@ -84,7 +84,7 @@ public final class RegisterUserInteractor
 			return response.nicknameIsTooLong = true;
 		if (nicknameContainsInvalidCharacters(nickname))
 			return response.nicknameIsInvalid = true;
-		if (startsWithAlphanum(nickname) == false)
+		if (!startsWithAlphanum(nickname))
 			return response.nicknameIsInvalid = true;
 		if (nicknameIsAlreadyTaken(request))
 			return response.nicknameIsAlreadyTaken = true;
@@ -134,13 +134,13 @@ public final class RegisterUserInteractor
 			return response.passwordIsTooShort = true;
 		if (password.length() > 64)
 			return response.passwordIsTooLong = true;
-		if (containsLowercase(password) == false)
+		if (!containsLowercase(password))
 			return response.passwordIsTooWeak = true;
-		if (containsUpperCase(password) == false)
+		if (!containsUpperCase(password))
 			return response.passwordIsTooWeak = true;
-		if (containsDigits(password) == false)
+		if (!containsDigits(password))
 			return response.passwordIsTooWeak = true;
-		if (containsSymbols(password) == false)
+		if (!containsSymbols(password))
 			return response.passwordIsTooWeak = true;
 
 		return false;
@@ -168,7 +168,7 @@ public final class RegisterUserInteractor
 
 	private boolean nicknameContainsInvalidCharacters(final String nickname)
 	{
-		return regexMatches(nickname, VALID_NICKNAME_PATTERN) == false;
+		return !regexMatches(nickname, VALID_NICKNAME_PATTERN);
 	}
 
 	private boolean startsWithAlphanum(final String text)
@@ -178,7 +178,7 @@ public final class RegisterUserInteractor
 
 	private boolean mailAddressHasInvalidFormat(final String mailAddress)
 	{
-		return regexMatches(mailAddress, MAIL_ADDRESS_PATTERN) == false;
+		return !regexMatches(mailAddress, MAIL_ADDRESS_PATTERN);
 	}
 
 	private boolean regexMatches(final String text, final Pattern regex)

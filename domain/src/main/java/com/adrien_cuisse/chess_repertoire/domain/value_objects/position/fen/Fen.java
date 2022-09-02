@@ -93,9 +93,9 @@ public final class Fen implements IValueObject
 
 	private static void throwIfMissingKings(final String ranksPart)
 	{
-		if (ranksPart.contains("K") == false)
+		if (!ranksPart.contains("K"))
 			throw new MissingKingException("white", "K");
-		if (ranksPart.contains("k") == false)
+		if (!ranksPart.contains("k"))
 			throw new MissingKingException("black", "k");
 	}
 
@@ -138,13 +138,13 @@ public final class Fen implements IValueObject
 
 	private static void throwIfInvalidActivePlayer(final String activePlayer)
 	{
-		if (activePlayer.equals("w") == false && activePlayer.equals("b") == false)
+		if (!activePlayer.equals("w") && !activePlayer.equals("b"))
 			throw new ActivePlayerException(activePlayer);
 	}
 
 	private static void throwIfInvalidCastlingPossibilities(final String castlingPossibilities)
 	{
-		if (castlingPossibilities.matches("^(-)|(K?Q?k?q?)$") == false)
+		if (!castlingPossibilities.matches("^(-)|(K?Q?k?q?)$"))
 			throw new CastlingException(castlingPossibilities);
 	}
 
@@ -154,10 +154,10 @@ public final class Fen implements IValueObject
 		final boolean kingSidePossibility = possibilities.contains("k");
 
 		final boolean hasPossibility = queenSidePossibility || kingSidePossibility;
-		if (hasPossibility == false)
+		if (!hasPossibility)
 			return;
 
-		final boolean kingMoved = kingSquareContent(ranks[BLACK_PIECES_RANK_INDEX]).equals("k") == false;
+		final boolean kingMoved = !kingSquareContent(ranks[BLACK_PIECES_RANK_INDEX]).equals("k");
 		if (kingMoved)
 			throw new ConflictingCastlingException("black", "player", "king", "" + KING_FILE + BLACK_PIECES_RANK_INDEX);
 
@@ -174,10 +174,10 @@ public final class Fen implements IValueObject
 		final boolean kingSidePossibility = possibilities.contains("K");
 
 		final boolean hasPossibility = queenSidePossibility || kingSidePossibility;
-		if (hasPossibility == false)
+		if (!hasPossibility)
 			return;
 
-		final boolean kingMoved = kingSquareContent(ranks[WHITE_PIECES_RANK_INDEX]).equals("K") == false;
+		final boolean kingMoved = !kingSquareContent(ranks[WHITE_PIECES_RANK_INDEX]).equals("K");
 		if (kingMoved)
 			throw new ConflictingCastlingException("white", "player", "king", "" + KING_FILE + WHITE_PIECES_RANK_INDEX);
 
@@ -218,13 +218,13 @@ public final class Fen implements IValueObject
 
 	private static void throwIfInvalidEnPassantSquare(final String enPassantSquare)
 	{
-		if (enPassantSquare.matches("(-)|([a-h][1-8])") == false)
+		if (!enPassantSquare.matches("(-)|([a-h][1-8])"))
 			throw new EnPassantSquareException(enPassantSquare);
 	}
 
 	private static void throwIfInvalidPliesCounter(final String pliesCounter)
 	{
-		if (pliesCounter.matches("^\\d+$") == false)
+		if (!pliesCounter.matches("^\\d+$"))
 			throw new PliesCounterException(pliesCounter);
 	}
 
@@ -232,7 +232,7 @@ public final class Fen implements IValueObject
 	{
 		final Matcher turnsCounterMatcher = TURNS_COUNTER_PATTERN.matcher(turnsCounter);
 
-		if (turnsCounterMatcher.find() == false)
+		if (!turnsCounterMatcher.find())
 			throw new TurnsCounterException(turnsCounter);
 
 		if (Integer.parseInt(turnsCounterMatcher.group()) == 0)

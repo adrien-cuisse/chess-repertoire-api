@@ -54,7 +54,7 @@ final class Uuid implements IUuid
             throw new NullUuidException();
 
         final String trimmed = uuid.replace(" ", "");
-        if (trimmed.matches("[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}") == false)
+        if (!trimmed.matches("[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}"))
             throw new InvalidUuidFormatException(uuid);
 
         final String digits = trimmed.replace("-", "");

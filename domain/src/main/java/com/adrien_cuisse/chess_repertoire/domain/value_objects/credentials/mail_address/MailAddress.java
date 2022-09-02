@@ -26,7 +26,7 @@ public final class MailAddress implements IValueObject
         if (this.mailAddress.equals(""))
             throw new EmptyMailAddressException();
 
-        if (VALIDATION_PATTERN.matcher(this.mailAddress).find() == false)
+        if (!VALIDATION_PATTERN.matcher(this.mailAddress).find())
             throw new InvalidMailAddressException(this.mailAddress);
     }
 
