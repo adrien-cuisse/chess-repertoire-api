@@ -17,4 +17,4 @@ application can do, and not which tools were used to build it.
 
 ## Current features
 - Registration
-- Position creation
+- Position creation (check for FEN format, no check for illegal position)
