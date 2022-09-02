@@ -17,11 +17,7 @@ public class FindPositionByUserAndFenFake implements FindPositionByUserAndFenQue
 		if (!fen.equals(MATCHING_FEN))
 			return Optional.empty();
 
-		return Optional.of(new PositionDTO(
-			"owner identity",
-			fen,
-			"name"
-		));
+		return Optional.of(new PositionDTO("", MATCHING_FEN, ""));
 	}
 
 	public String matchingFen()

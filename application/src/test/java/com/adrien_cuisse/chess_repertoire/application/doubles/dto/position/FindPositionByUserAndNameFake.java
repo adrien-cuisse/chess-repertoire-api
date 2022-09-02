@@ -17,11 +17,7 @@ public final class FindPositionByUserAndNameFake implements FindPositionByUserAn
 		if (!name.equals(MATCHING_NAME))
 			return Optional.empty();
 
-		return Optional.of(new PositionDTO(
-			"owner identity",
-			name,
-			"fen"
-		));
+		return Optional.of(new PositionDTO("", MATCHING_NAME, ""));
 	}
 
 	public String matchingName()
