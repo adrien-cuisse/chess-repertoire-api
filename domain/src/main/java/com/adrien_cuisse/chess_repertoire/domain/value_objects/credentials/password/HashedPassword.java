@@ -15,11 +15,13 @@ public final class HashedPassword implements IPassword
         this.hash = hashedPassword;
     }
 
+    @Override
     public boolean isHashed()
     {
         return true;
     }
 
+    @Override
     public boolean equals(final IValueObject other)
     {
         if (other instanceof HashedPassword otherInstance)

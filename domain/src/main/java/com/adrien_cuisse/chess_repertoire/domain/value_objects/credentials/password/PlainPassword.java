@@ -21,11 +21,13 @@ public final class PlainPassword implements IPassword
             throw new EmptyPasswordException();
     }
 
+    @Override
     public boolean isHashed()
     {
         return false;
     }
 
+    @Override
     public boolean equals(final IValueObject other)
     {
         if (other instanceof PlainPassword otherInstance)

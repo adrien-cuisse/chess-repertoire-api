@@ -66,7 +66,7 @@ public final class PlainPasswordTest
 		final var password = new PlainPassword("hO5*oU4%hC6<jG3<mC0~yI3}fR3{bS5.");
 
 		final var otherValueObject = new IValueObject() {
-			public boolean equals(IValueObject other) { return false; }
+			@Override public boolean equals(IValueObject other) { return false; }
 		};
 
 		return new Object[][] {

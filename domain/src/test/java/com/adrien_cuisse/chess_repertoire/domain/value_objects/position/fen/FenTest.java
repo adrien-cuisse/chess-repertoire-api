@@ -442,7 +442,7 @@ public final class FenTest
 		final var differentStringFen = new Fen("r2q1rk1/p1p2ppp/1bp3n1/3pP3/3P1PQ1/2N1B2P/PP6/2KR3R b - f3 0 18");
 
 		final var otherValueObject = new IValueObject() {
-			public boolean equals(IValueObject other) { return false; }
+			@Override public boolean equals(IValueObject other) { return false; }
 		};
 
 		return new Object[][] {

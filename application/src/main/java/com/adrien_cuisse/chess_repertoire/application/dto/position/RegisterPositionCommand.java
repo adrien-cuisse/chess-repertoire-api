@@ -6,8 +6,7 @@ public record RegisterPositionCommand(
 	String ownerIdentity,
 	String name,
 	String fen
-)
-{
+) {
 	public interface IHandler
 	{
 		void execute(final RegisterPositionCommand command);

@@ -10,6 +10,7 @@ public final class FindCredentialsByTakenMailAddressFake implements FindCredenti
 {
 	private static final String MATCHING_MAIL_ADDRESS = "taken@email.org";
 
+	@Override
 	public Optional<CredentialsDTO> execute(final FindCredentialsByMailAddressQuery query)
 	{
 		if (query.mailAddress().equals(MATCHING_MAIL_ADDRESS))

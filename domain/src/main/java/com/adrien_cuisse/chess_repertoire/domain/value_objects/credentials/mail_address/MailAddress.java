@@ -30,6 +30,7 @@ public final class MailAddress implements IValueObject
             throw new InvalidMailAddressException(this.mailAddress);
     }
 
+    @Override
     public boolean equals(final IValueObject other)
     {
         if (other instanceof MailAddress otherInstance)

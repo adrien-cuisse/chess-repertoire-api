@@ -10,6 +10,7 @@ public final class FindPositionByUserAndNameFake implements FindPositionByUserAn
 {
 	private static final String MATCHING_NAME = "taken name";
 
+	@Override
 	public Optional<PositionDTO> execute(FindPositionByUserAndNameQuery query)
 	{
 		final String name = query.name();

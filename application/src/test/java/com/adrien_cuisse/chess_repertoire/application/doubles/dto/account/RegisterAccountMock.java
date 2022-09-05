@@ -9,6 +9,7 @@ public final class RegisterAccountMock implements RegisterAccountCommand.IHandle
 
 	private RegisterAccountCommand receivedCommand = null;
 
+	@Override
 	public void execute(final RegisterAccountCommand command)
 	{
 		this.wasExecuted = true;

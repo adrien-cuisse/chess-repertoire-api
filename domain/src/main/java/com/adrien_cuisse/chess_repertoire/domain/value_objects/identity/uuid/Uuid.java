@@ -73,6 +73,7 @@ final class Uuid implements IUuid
         }
     }
 
+    @Override
     public boolean equals(final IValueObject other)
     {
         if (other instanceof IUuid otherInstance)
@@ -80,21 +81,25 @@ final class Uuid implements IUuid
         return false;
     }
 
+    @Override
     public int version()
     {
         return (this.bytes[6] & 0b1111_1111) >> 4;
     }
 
+    @Override
     public Variant variant()
     {
         return Variant.matchFromByte(this.bytes[8]);
     }
 
+    @Override
     public String toNative()
     {
         return this.toString();
     }
 
+    @Override
     public String toString()
     {
         final var builder = new StringBuilder();

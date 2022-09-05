@@ -49,7 +49,7 @@ public final class HashedPasswordTest
 		final var password = new HashedPassword("uM3@xR3{hM4.yP6)pU4?cA3%cV1{nR9+");
 
 		final var otherValueObject = new IValueObject() {
-			public boolean equals(IValueObject other) { return false; }
+			@Override public boolean equals(IValueObject other) { return false; }
 		};
 
 		return new Object[][] {

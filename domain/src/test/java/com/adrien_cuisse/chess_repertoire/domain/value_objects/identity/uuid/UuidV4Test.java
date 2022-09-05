@@ -80,12 +80,12 @@ public final class UuidV4Test
         final var sameStringRepresentation = new UuidV4(uuid.toString());
 
         final var otherIdentity = new IIdentity<String>() {
-            public String toNative() { return "42"; }
-            public boolean equals(final IValueObject other) { return false; }
+            @Override public String toNative() { return "42"; }
+            @Override public boolean equals(final IValueObject other) { return false; }
         };
 
         final var otherValueObject = new IValueObject() {
-            public boolean equals(IValueObject other) { return false; }
+            @Override public boolean equals(IValueObject other) { return false; }
         };
 
         return new Object[][] {

@@ -16,6 +16,7 @@ public final class AuthenticatorMock implements IAuthenticator
 
 	private IUser authenticatedUser = null;
 
+	@Override
 	public Optional<IUser> authenticate(String token)
 	{
 		this.wasExecuted = true;

@@ -68,7 +68,7 @@ public final class PositionNameTest
 		final var name = new PositionName("name");
 
 		final var otherValueObject = new IValueObject() {
-			public boolean equals(IValueObject other) { return false; }
+			@Override public boolean equals(IValueObject other) { return false; }
 		};
 
 		return new Object[][] {

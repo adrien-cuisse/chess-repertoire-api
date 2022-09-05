@@ -9,6 +9,7 @@ public final class RegisterPositionMock implements RegisterPositionCommand.IHand
 
 	private RegisterPositionCommand receivedCommand = null;
 
+	@Override
 	public void execute(final RegisterPositionCommand command)
 	{
 		this.wasExecuted = true;

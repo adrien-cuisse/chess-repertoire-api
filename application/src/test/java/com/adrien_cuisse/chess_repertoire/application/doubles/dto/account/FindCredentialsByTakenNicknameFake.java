@@ -10,6 +10,7 @@ public final class FindCredentialsByTakenNicknameFake implements FindCredentials
 {
 	private static final String MATCHING_NICKNAME = "taken nickname";
 
+	@Override
 	public Optional<CredentialsDTO> execute(final FindCredentialsByNicknameQuery query)
 	{
 		if (query.nickname().equals(MATCHING_NICKNAME))

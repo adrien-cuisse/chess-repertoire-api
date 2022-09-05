@@ -71,6 +71,7 @@ public final class Fen implements IValueObject
 		throwIfInvalidTurnsCounter(parts[TURNS_COUNTER_INDEX]);
 	}
 
+	@Override
 	public boolean equals(IValueObject other)
 	{
 		if (other instanceof Fen otherInstance)

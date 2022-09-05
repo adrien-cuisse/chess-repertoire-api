@@ -21,6 +21,7 @@ public final class Nickname implements IValueObject
             throw new EmptyNicknameException();
     }
 
+    @Override
     public boolean equals(final IValueObject other)
     {
         if (other instanceof Nickname otherInstance)

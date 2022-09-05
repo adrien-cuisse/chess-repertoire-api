@@ -77,7 +77,7 @@ public final class NicknameTest
         final var nickname = new Nickname("nickname");
 
         final var otherValueObject = new IValueObject() {
-            public boolean equals(IValueObject other) { return false; }
+            @Override public boolean equals(IValueObject other) { return false; }
         };
 
         return new Object[][] {

@@ -5,6 +5,7 @@ public final class UserRegistrationPresenterMock implements IUserRegistrationPre
 {
 	private UserRegistrationResponse response = null;
 
+	@Override
 	public void present(final UserRegistrationResponse response)
 	{
 		this.response = response;

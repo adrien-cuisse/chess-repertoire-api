@@ -68,7 +68,7 @@ public final class MailAddressTest
 		final var mailAddress = new MailAddress("foo@bar.org");
 
 		final var otherValueObject = new IValueObject() {
-			public boolean equals(IValueObject other) { return false; }
+			@Override public boolean equals(IValueObject other) { return false; }
 		};
 
 		return new Object[][] {

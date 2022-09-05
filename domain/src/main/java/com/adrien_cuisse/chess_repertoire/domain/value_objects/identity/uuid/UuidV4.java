@@ -26,26 +26,31 @@ public final class UuidV4 implements IUuid
         this.uuid = new Uuid(uuid, 4);
     }
 
+    @Override
     public boolean equals(final IValueObject other)
     {
         return this.uuid.equals(other);
     }
 
+    @Override
     public int version()
     {
         return 4;
     }
 
+    @Override
     public Variant variant()
     {
         return this.uuid.variant();
     }
 
+    @Override
     public String toNative()
     {
         return this.uuid.toNative();
     }
 
+    @Override
     public String toString()
     {
         return this.uuid.toString();

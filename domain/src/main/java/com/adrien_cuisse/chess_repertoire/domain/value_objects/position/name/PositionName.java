@@ -17,6 +17,7 @@ public final class PositionName implements IValueObject
 			throw new EmptyPositionNameException();
 	}
 
+	@Override
 	public boolean equals(final IValueObject other)
 	{
 		if (other instanceof PositionName)
