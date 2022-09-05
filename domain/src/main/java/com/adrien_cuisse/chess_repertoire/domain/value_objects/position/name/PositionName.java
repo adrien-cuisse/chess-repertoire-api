@@ -20,8 +20,8 @@ public final class PositionName implements IValueObject
 	@Override
 	public boolean equals(final IValueObject other)
 	{
-		if (other instanceof PositionName)
-			return this.name.equals(((PositionName) other).name);
+		if (other instanceof PositionName name)
+			return this.name.equals(name.name);
 		return false;
 	}
 
